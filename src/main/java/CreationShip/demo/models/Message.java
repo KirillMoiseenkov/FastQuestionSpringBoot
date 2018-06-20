@@ -21,7 +21,6 @@ public class Message {
     public Message(){};
 
     public Message(Question question_id, String message) {
-        this.id = id;
         this.question_id = question_id;
         this.message = message;
     }
