@@ -73,7 +73,7 @@ public class EchoServer {
             client.write(buffer);
             buffer.clear();
             buffer.put("poom".getBytes());
-            //  client.register(selector, SelectionKey.OP_READ);
+            client.register(selector, SelectionKey.OP_READ);
         }catch (IOException e){
             key.cancel();
             buffer.clear();
