@@ -8,7 +8,16 @@ public class TestClient {
     public static void main(String[] args) throws IOException {
 
         Socket socket = null;
-        try {
+
+        for(int i=0;i<4;i++){
+
+            Socket socket1 = new Socket("localhost", 8080);
+
+        }
+
+
+
+        /*try {
 
 
             socket = new Socket("localhost", 8080);
@@ -49,6 +58,6 @@ public class TestClient {
         }finally {
 
             socket.close();
-        }
+        }*/
     }
 }

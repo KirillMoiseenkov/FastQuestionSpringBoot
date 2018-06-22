@@ -54,6 +54,7 @@ public class EchoClient {
 
         EchoClient echoClient = EchoClient.start();
 
+
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
         while (true){

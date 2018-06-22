@@ -11,59 +11,94 @@ import java.nio.channels.SocketChannel;
 import java.util.Iterator;
 import java.util.Set;
 
-public class EchoServer {
+public class EchoServer extends Thread {
 
-    private static final String POISON_PILL = "POISON_PILL";
+   private ServerSocketChannel serverSocket = ServerSocketChannel.open();
+   private static ThreadLocal<Integer> countConnection = new ThreadLocal<>();
+   private int allocate;
 
-    public static void main(String[] args) throws IOException {
-        Selector selector = Selector.open();
-        ServerSocketChannel serverSocket = ServerSocketChannel.open();
-        serverSocket.bind(new InetSocketAddress("localhost", 8080));
-        serverSocket.configureBlocking(false);
-        serverSocket.register(selector, SelectionKey.OP_ACCEPT);
-        ByteBuffer buffer = ByteBuffer.allocate(256);
-        int count = 0;
-
-        while (true) {
-
-
-
-            selector.select();
-            Set<SelectionKey> selectedKeys = selector.selectedKeys();
-            Iterator<SelectionKey> iter = selectedKeys.iterator();
-            while (iter.hasNext()) {
-
-
-
-                SelectionKey key = iter.next();
-
-
-
-                if (key.isAcceptable()) {
-                    count++;
-                    System.out.println("count = "  + count);
-                    register(selector, serverSocket);
-
-
-                }
-
-                if (key.isValid() && key.isReadable()) {
-
-                    answerWithEcho(buffer, key, selector);
-
-                }
-
-                if(key.isValid() && key.isWritable()){
-                        isWriteble(buffer, key, selector);
-
-                }
-
-                iter.remove();
-            }
-        }
+    public static Integer getCountConnection() {
+        return countConnection.get();
     }
 
-    private static  void isWriteble(ByteBuffer buffer, SelectionKey key, Selector selector) throws IOException {
+
+    public EchoServer(int allocate, InetSocketAddress inetSocketAddress) throws IOException {
+
+       this.allocate = allocate;
+
+        if (inetSocketAddress == null)
+            inetSocketAddress = new InetSocketAddress("localhost",8080);
+        serverSocket.bind(inetSocketAddress);
+        serverSocket.configureBlocking(false);
+
+
+    }
+
+    @Override
+    public void run() {
+
+        Selector selector;
+        ByteBuffer buffer;
+        countConnection.set(0);
+
+        try {
+            selector = Selector.open();
+            serverSocket.register(selector, SelectionKey.OP_ACCEPT);
+            buffer = ByteBuffer.allocate(allocate);
+        }catch (IOException e){
+            System.out.println(e);
+            return;
+        }
+
+        try {
+
+            while (true) {
+
+                    selector.select();
+                    Set<SelectionKey> selectedKeys = selector.selectedKeys();
+                    Iterator<SelectionKey> iter = selectedKeys.iterator();
+
+                    /*if(countConnection.get() > 3){
+                        try {
+                            System.out.println("sleep = " + Thread.currentThread());
+                            Thread.sleep(30000);
+                            System.out.println("wake up = " + Thread.currentThread());
+
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }*/
+
+                    while (iter.hasNext()) {
+
+                    SelectionKey key = iter.next();
+
+                    if (key.isAcceptable()) {
+                        countConnection.set(countConnection.get()+1);
+                        System.out.println("connectioSize = " + countConnection.get() + " thread is" + Thread.currentThread());
+                        register(selector, serverSocket);
+
+                    }
+
+                        if (key.isValid() && key.isReadable()) {
+                        read(buffer, key, selector);
+                        }
+
+                        if (key.isValid() && key.isWritable()) {
+                            write(buffer, key, selector);
+
+                    }
+
+                    iter.remove();
+                }
+            }
+        }catch (IOException e){
+            System.out.println(e);
+        }
+        System.out.println("end = " + Thread.currentThread());
+    }
+
+    private static  void write(ByteBuffer buffer, SelectionKey key, Selector selector) throws IOException {
 
         try {
 
@@ -80,7 +115,7 @@ public class EchoServer {
         }
     }
 
-    private static void answerWithEcho(ByteBuffer buffer, SelectionKey key, Selector selector) {
+    private void read(ByteBuffer buffer, SelectionKey key, Selector selector) {
 
         try {
             SocketChannel client = (SocketChannel) key.channel();
@@ -90,19 +125,15 @@ public class EchoServer {
                 key.cancel();
             }
 
-            if (new String(buffer.array()).trim().equals(POISON_PILL)) {
-                client.close();
-                System.out.println("Not accepting client messages anymore");
-            }
-
             client.register(selector, SelectionKey.OP_WRITE);
         }catch (IOException e){
             buffer.clear();
             key.cancel();
+
         }
     }
 
-    private static void register(Selector selector, ServerSocketChannel serverSocket)
+    private void register(Selector selector, ServerSocketChannel serverSocket)
             throws IOException {
 
         SocketChannel client = serverSocket.accept();
