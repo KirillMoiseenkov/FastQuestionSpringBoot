@@ -9,15 +9,9 @@ public class TestClient {
 
         Socket socket = null;
 
-        for(int i=0;i<4;i++){
-
-            Socket socket1 = new Socket("localhost", 8080);
-
-        }
 
 
-
-        /*try {
+        try {
 
 
             socket = new Socket("localhost", 8080);
@@ -58,6 +52,6 @@ public class TestClient {
         }finally {
 
             socket.close();
-        }*/
+        }
     }
 }

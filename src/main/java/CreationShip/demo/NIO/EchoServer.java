@@ -20,6 +20,8 @@ import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 
@@ -27,6 +29,13 @@ import java.util.*;
 public class EchoServer extends Thread {
 
     private static ThreadLocal<Integer> countConnection = new ThreadLocal<>();
+    private static InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", 8080);
+
+    private Charset charset = Charset.forName("ISO-8859-1");
+    private CharsetEncoder encoder = charset.newEncoder();
+    private CharsetDecoder decoder = charset.newDecoder();
+
+
 
     @Autowired
     private MessageService messageService;
@@ -47,6 +56,21 @@ public class EchoServer extends Thread {
         serverSocket.configureBlocking(false);
 
 
+    }
+
+    public EchoServer() throws IOException {
+
+        this.allocate = 64;
+
+        serverSocket.bind(inetSocketAddress);
+        serverSocket.configureBlocking(false);
+
+
+    }
+
+
+    public void setAllocate(int allocate){
+        this.allocate = allocate;
     }
 
     public static Integer getCountConnection() {
@@ -116,19 +140,7 @@ public class EchoServer extends Thread {
             SocketChannel client = (SocketChannel) key.channel();
 
 
-       //     String respone = lastMessage.get(key);
-
- //           System.out.println(respone);
-
-
-
-            //buffer.flip();
             client.write(ByteBuffer.wrap(lastMessage.get(key).getBytes()));
-           // buffer.clear();
-
-
-            //buffer.put(new byte[64]);
-            //System.out.println(new String(buffer.array()).trim());
 
             client.register(selector, SelectionKey.OP_READ);
 
@@ -139,10 +151,6 @@ public class EchoServer extends Thread {
     }
 
     private void read(ByteBuffer buffer, SelectionKey key, Selector selector, Map<SelectionKey, String> lastMessage) {
-
-     //   buffer.put(new byte[64]);
-
-      //  System.out.println(Arrays.toString(buffer.array()));
 
         buffer.flip();
         buffer.clear();
@@ -160,11 +168,17 @@ public class EchoServer extends Thread {
 
             responce = new String(Arrays.copyOfRange(buffer.array(),0, buffer.position()));
 
-          //  ByteBuffer byteBuffer = ByteBuffer.wrap(Arrays.copyOf(buffer.array(),buffer.position()));
+            System.out.println(responce);
 
-            lastMessage.put(key,responce);
+            String s = "231 + " + responce;
 
-            client.register(selector, SelectionKey.OP_WRITE);
+
+
+            System.out.println(s);
+            System.out.println(client.write(ByteBuffer.wrap(s.getBytes(charset))));
+            //client.write(buffer);
+
+            //client.register(selector, SelectionKey.OP_WRITE);
 
         } catch (IOException e) {
             buffer.clear();
@@ -178,8 +192,6 @@ public class EchoServer extends Thread {
 
         SocketChannel client = serverSocket.accept();
         client.configureBlocking(false);
-
-//        client.write(ByteBuffer.wrap(questionService.getRandomQuestion(1).get(0).getQuestion().getBytes()));
 
         client.register(selector, SelectionKey.OP_READ);
 
