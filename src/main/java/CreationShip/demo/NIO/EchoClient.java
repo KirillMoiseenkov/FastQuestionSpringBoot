@@ -49,6 +49,22 @@ public class EchoClient {
         return response;
 
     }
+    public String sendMessage(String msg, String nain) {
+        buffer = ByteBuffer.wrap(msg.getBytes());
+        String response = null;
+        try {
+            client.write(buffer);
+            buffer.clear();
+            client.read(buffer);
+            response = new String(buffer.array()).trim();
+            System.out.println("response=" + response);
+            buffer.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return response;
+
+    }
 
     public static void main(String[] args) throws IOException {
 

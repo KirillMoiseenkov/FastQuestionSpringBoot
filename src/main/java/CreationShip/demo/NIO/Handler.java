@@ -12,13 +12,12 @@ public class Handler {
 
     public static void main(String[] args) throws IOException {
 
-        echoServer = new EchoServer(256, null);
+        echoServer = new EchoServer(64, null);
 
         Thread thread = echoServer;
 
         ExecutorService executorService = Executors.newFixedThreadPool(10);
 
-        executorService.submit(thread);
         executorService.submit(thread);
     }
 
