@@ -17,11 +17,10 @@ public class AnswerQuestionConnector implements IConnector {
     private Question question;
 
 
-    public AnswerQuestionConnector(MessageService messageService, QuestionService questionService, Reader reader, Writer writer){
+    public AnswerQuestionConnector(MessageService messageService, QuestionService questionService){
         this.messageService = messageService;
         this.questionService = questionService;
-        this.reader = reader;
-        this.writer = writer;
+
     }
 
     public void setReader(Reader reader) {
@@ -54,11 +53,11 @@ public class AnswerQuestionConnector implements IConnector {
         }
 
 
-
+        System.out.println(question.getQuestion() + " pre");
 
         writer.write(question.getQuestion() + System.lineSeparator());
 
-        System.out.println(question.getQuestion());
+        System.out.println(question.getQuestion() + " after");
         //writer.write(reader.getResponce());
     }
 

@@ -14,13 +14,18 @@ public class AskQuestionConnector implements IConnector {
     private QuestionService questionService;
     private Question question;
 
-    public AskQuestionConnector(MessageService messageService, QuestionService questionService, Reader reader, Writer writer){
+    public AskQuestionConnector(MessageService messageService, QuestionService questionService){
         this.messageService = messageService;
         this.questionService = questionService;
-        this.reader = reader;
-        this.writer = writer;
     }
 
+    public void setReader(Reader reader) {
+        this.reader = reader;
+    }
+
+    public void setWriter(Writer writer) {
+        this.writer = writer;
+    }
 
     @Override
     public String read() {

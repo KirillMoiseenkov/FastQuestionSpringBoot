@@ -33,9 +33,6 @@ public class EchoServer extends Thread {
     private static ThreadLocal<Integer> countConnection = new ThreadLocal<>();
     private static InetSocketAddress inetSocketAddress = new InetSocketAddress("localhost", 8080);
 
-
-
-
     @Autowired
     private MessageService messageService;
 
@@ -83,6 +80,8 @@ public class EchoServer extends Thread {
         Map<SelectionKey, String> lastMessage = new HashMap<>();
         Map<SelectionKey, AnswerQuestionConnector> connectorMap = new HashMap<>();
 
+        Map<SelectionKey,Connection> connectionMap = new HashMap<>();
+
         try {
             selector = Selector.open();
             serverSocket.register(selector, SelectionKey.OP_ACCEPT);
@@ -100,8 +99,6 @@ public class EchoServer extends Thread {
                 selector.select();
                 Set<SelectionKey> selectedKeys = selector.selectedKeys();
                 Iterator<SelectionKey> iter = selectedKeys.iterator();
-
-//                Map<SelectionKey,IConnector> ConnectorMap = new HashMap<>();
 
                 while (iter.hasNext()) {
 
@@ -124,24 +121,29 @@ public class EchoServer extends Thread {
 
                     if (key.isValid() && key.isReadable()) {
 
-
                         reader = new Reader(buffer, key, selector);
                         reader.enableWriteMode(true);
 
                         if (!connectorMap.containsKey(key)) {
                             connectorMap.put(key,
-                                    new AnswerQuestionConnector(messageService, questionService, null, null));
+                                    new AnswerQuestionConnector(messageService, questionService));
                         }
 
-                        AnswerQuestionConnector answerQuestionConnector = connectorMap.get(key);
+                        if (!connectionMap.containsKey(key)) {
+                            connectionMap.put(key, new Connection(messageService,questionService));
+                        }
 
+                        Connection connection = connectionMap.get(key);
+
+                        connection.setReader(reader);
+
+                        /*AnswerQuestionConnector answerQuestionConnector = connectorMap.get(key);
                         answerQuestionConnector.setReader(reader);
+                        answerQuestionConnector.read();*/
 
-                        answerQuestionConnector.read();
-
+                        connection.read();
 
                         //  read(buffer, key, selector, lastMessage, reader);
-                        //read(answerQuestionConnector);
                     }
 
                     if (key.isValid() && key.isWritable()) {
@@ -149,12 +151,17 @@ public class EchoServer extends Thread {
                         writer = new Writer(buffer, key, selector);
                         writer.enableReadMode(true);
 
+                        Connection connection = connectionMap.get(key);
+                        connection.setWrite(writer);
+                        connection.write();
 
+                        /*
                         AnswerQuestionConnector answerQuestionConnector = connectorMap.get(key);
 
                         answerQuestionConnector.setWriter(writer);
 
-                        answerQuestionConnector.write();
+                        answerQuestionConnector.write("123" + System.lineSeparator());
+*/
 
 
                         // write(buffer, key, selector, lastMessage, writer);
@@ -189,7 +196,7 @@ public class EchoServer extends Thread {
         reader = new Reader(buffer, key, selector);
 
         AnswerQuestionConnector answerQuestionConnector =
-                new AnswerQuestionConnector(messageService, questionService, null, null);
+                new AnswerQuestionConnector(messageService, questionService);
 
 
         reader.enableWriteMode(true);

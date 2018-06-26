@@ -20,17 +20,34 @@ public class Connection implements IConnection{
 
     private HashMap<Integer, IConnector> stages = new HashMap<>();
 
-    public Connection(MessageService messageService, QuestionService questionService, Reader reader, Writer writer){
+    public Connection(MessageService messageService, QuestionService questionService){
 
-        answerQuestionConnector = new AnswerQuestionConnector(messageService,questionService, reader, writer);
-        askQuestionConnector = new AskQuestionConnector(messageService,questionService, reader, writer);
-        getAnswerConnector = new GetAnswerConnector(messageService,questionService, reader, writer);
+        answerQuestionConnector = new AnswerQuestionConnector(messageService,questionService);
+        askQuestionConnector = new AskQuestionConnector(messageService,questionService);
+        getAnswerConnector = new GetAnswerConnector(messageService,questionService);
 
         stages.put(1,answerQuestionConnector);
         stages.put(2,askQuestionConnector);
         stages.put(3,getAnswerConnector);
 
         iConnector = stages.get(1);
+    }
+
+
+    public void setReader(Reader reader){
+        answerQuestionConnector.setReader(reader);
+        askQuestionConnector.setReader(reader);
+        getAnswerConnector.setReader(reader);
+    }
+
+    public void setWrite(Writer write){
+        answerQuestionConnector.setWriter(write);
+        askQuestionConnector.setWriter(write);
+        getAnswerConnector.setWriter(write);
+    }
+
+    public int getStage() {
+        return stage;
     }
 
     @Override

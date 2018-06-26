@@ -20,10 +20,16 @@ public class GetAnswerConnector implements IConnector {
     private Long oldId;
     private List<Message> messageList;
 
-    public GetAnswerConnector(MessageService messageService, QuestionService questionService, Reader reader, Writer writer){
-        this.messageService = messageService;
-        this.questionService = questionService;
+    public GetAnswerConnector(MessageService messageService, QuestionService questionService){
         this.reader = reader;
+        this.writer = writer;
+    }
+
+    public void setReader(Reader reader) {
+        this.reader = reader;
+    }
+
+    public void setWriter(Writer writer) {
         this.writer = writer;
     }
 
