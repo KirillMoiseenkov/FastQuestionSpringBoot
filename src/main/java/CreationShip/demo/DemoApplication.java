@@ -11,11 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class DemoApplication implements CommandLineRunner{
 
-	@Autowired
-	MessageService messageService;
-
-	@Autowired
-	Acceptor acceptor;
+	//@Autowired
+	//Acceptor acceptor;
 
 	@Autowired
 	Handler handler;
@@ -29,7 +26,7 @@ public class DemoApplication implements CommandLineRunner{
 	@Override
 	public void run(String... args) throws Exception {
 
-		//handler.startServer();
+		handler.startServer();
 		//Acceptor.PORT = 8080;
 
 		//acceptor.run();

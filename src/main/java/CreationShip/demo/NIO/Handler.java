@@ -13,13 +13,13 @@ import java.util.concurrent.Executors;
 public class Handler {
 
 
- /*   @Autowired
+    @Autowired
     private EchoServer echoServer;
 
     public void startServer(){
         echoServer.run();
     }
-*/
+
     public static void main(String[] args) throws IOException {
 
         EchoServer echoServer = new EchoServer();

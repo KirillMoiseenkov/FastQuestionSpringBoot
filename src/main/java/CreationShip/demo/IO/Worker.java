@@ -22,6 +22,10 @@ public class Worker implements Runnable {
     private QuestionService questionService;
     private InputStream in;
     private PrintWriter out;
+    private BufferedReader br;
+    private MessageGetter messageGetter;
+    private MessageSender messageSender;
+    private List<Message> messageList;
 
     public Worker() {
     }
@@ -45,73 +49,29 @@ public class Worker implements Runnable {
     public void run() {
 
         try {
-            InputStream in = socket.getInputStream();
-            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            MessageGetter messageGetter = new MessageGetter(br);
-            MessageSender messageSender = new MessageSender(out);
-            //Inititalization
-
-            for (int i = 0; i < 3; i++) {
-                Long id = 1L;
-                Question question = new Question();
-
-                do {
-                    question = questionService.getRandomQuestion(1).get(0);
-                } while (question == null);
-
-                messageSender.send(question.getQuestion());
-
-                messageGetter.getMessage();
-                log.debug(messageGetter.getCache());
-
-                Message message = new Message(question, messageGetter.getCache());
-
-                messageService.saveOrUpdate(message);
-
-            }
-            //Ask on the Question from DB
+            in = socket.getInputStream();
+            out = new PrintWriter(socket.getOutputStream(), true);
+            br = new BufferedReader(new InputStreamReader(in));
+            messageGetter = new MessageGetter(br);
+            messageSender = new MessageSender(out);
 
 
-            out.println("ask your question");
-            messageGetter.getMessage();
-            log.debug("question is " + messageGetter.getCache());
-            Question question = new Question(messageGetter.getCache());
-            log.debug(messageGetter.getCache());
+            asnwerOnTheQuestion(3);
 
-            Long messageId = questionService.saveOrUpdate(question).getId();
-            List<Question> questionList;
-            List<Message> messageList;
+            Long messageId = askQuestion();
 
+            getMessageListByQuestionId(messageId);
 
-            questionList = questionService.getAll();
+            messageList.forEach(message -> messageSender.send(message.getMessage())); // send all message that find by id
 
-            while (true) {
-                messageList = messageService.getByQuestion(messageId);
-                if (messageList.size() > 0)
-                    break;
-            }
+            Long oldId = messageList.get(messageList.size() - 1).getId(); //get last id from message list
 
-            messageList.forEach(message -> messageSender.send(message.getMessage()));
+            sendLastMessage(messageId, oldId);
 
-            Long oldId = messageList.get(messageList.size() - 1).getId();
-            Long id;
-
-
-            while (true) {
-                messageList = messageService.getByQuestion(messageId, oldId);
-
-                if (messageList.size() > 0) {
-                    messageList.forEach(message -> messageSender.send(message.getMessage()));
-                    oldId = messageList.get(messageList.size() - 1).getId();
-                }
-
-            }
 
         } catch (IOException e) {
             e.printStackTrace();
-            }
-            finally {
+        } finally {
 
             try {
                 socket.close();
@@ -123,5 +83,67 @@ public class Worker implements Runnable {
 
     }
 
+
+    private void asnwerOnTheQuestion(int count) throws IOException {
+
+        for (int i = 0; i < count; i++) {
+            Long id = 1L;
+            Question question = new Question();
+
+            do {
+                question = questionService.getRandomQuestion(1).get(0);
+            } while (question == null);
+
+            messageSender.send(question.getQuestion());
+
+            messageGetter.getMessage();
+            log.debug(messageGetter.getCache());
+
+            Message message = new Message(question, messageGetter.getCache());
+
+            messageService.saveOrUpdate(message);
+
+        }
+
+    }
+
+
+    private Long askQuestion() throws IOException {
+
+        out.println("ask your question");
+        messageGetter.getMessage();
+        log.debug("question is " + messageGetter.getCache());
+        Question question = new Question(messageGetter.getCache());
+
+        log.debug(messageGetter.getCache());
+
+        return questionService.saveOrUpdate(question).getId();
+
+
+    }
+
+    private void getMessageListByQuestionId(Long messageId) {
+
+        while (true) {
+            messageList = messageService.getByQuestion(messageId);
+            if (messageList.size() > 0)
+                break;
+        }
+
+
+    }
+
+    private void sendLastMessage(Long messageId, Long oldId) {
+
+        while (true) {
+            messageList = messageService.getByQuestion(messageId, oldId);
+
+            if (messageList.size() > 0) {
+                messageList.forEach(message -> messageSender.send(message.getMessage()));
+                oldId = messageList.get(messageList.size() - 1).getId();
+            }
+
+        }
+    }
 
 }
