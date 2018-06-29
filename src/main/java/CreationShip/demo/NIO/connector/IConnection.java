@@ -1,4 +1,4 @@
-package CreationShip.demo.NIO;
+package CreationShip.demo.NIO.connector;
 
 public interface IConnection {
 

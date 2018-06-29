@@ -3,26 +3,22 @@ package CreationShip.demo.NIO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.swing.tree.FixedHeightLayoutCache;
 import java.io.IOException;
-import java.net.InetSocketAddress;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 @Service
 public class Handler {
 
 
     @Autowired
-    private EchoServer echoServer;
+    private Server server;
 
     public void startServer(){
-        echoServer.run();
+        server.run();
     }
 
     public static void main(String[] args) throws IOException {
 
-        EchoServer echoServer = new EchoServer();
+        Server server = new Server();
                 //new EchoServer(64, null);
 
 
@@ -32,7 +28,7 @@ public class Handler {
 
         executorService.submit(thread);*/
 
-        echoServer.run();
+        server.run();
 
 
     }

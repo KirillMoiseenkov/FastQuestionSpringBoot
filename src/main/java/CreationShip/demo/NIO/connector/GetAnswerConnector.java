@@ -1,7 +1,7 @@
 package CreationShip.demo.NIO.connector;
 
-import CreationShip.demo.NIO.Reader;
-import CreationShip.demo.NIO.Writer;
+import CreationShip.demo.NIO.comunic.Reader;
+import CreationShip.demo.NIO.comunic.Writer;
 import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
@@ -42,8 +42,8 @@ public class GetAnswerConnector implements IConnector {
     @Override
     public String read() {
 
-        System.out.println("shipppppp");
-
+        reader.enableWriteMode(true);
+        writer.write("pos");
         return "Empty";
 
     }
@@ -51,11 +51,18 @@ public class GetAnswerConnector implements IConnector {
     @Override
     public void write() {
 
-            messageList = messageService.getByQuestion(messageId);
+        writer.write("koo-koo");
+        writer.enableReadMode(false);
+       /* messageList = messageService.getByQuestion(messageId);
 
         if (messageList.size() == 0){
             return;
         }
+
+        writer.write(messageList.get(messageList.size()-1).getMessage());
+        System.out.println(messageList.get(messageList.size()-1).getMessage());
+        writer.enableReadMode(false);
+
 
         System.out.println("messageList.size() = "   + messageList.size());
         messageList.forEach(message ->
@@ -64,12 +71,12 @@ public class GetAnswerConnector implements IConnector {
             System.out.println(message.getMessage());
         });
 
-        System.out.println("messageList.size() after = "   + messageList.size());
+        System.out.println("messageList.size() after = "   + messageList.size());*/
 
 
-        writer.enableReadMode(false);
 
-           /* oldId = messageList.get(messageList.size() - 1).getId();
+
+            /*oldId = messageList.get(messageList.size() - 1).getId();
             messageList = messageService.getByQuestion(messageId, oldId);
 
 

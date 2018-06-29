@@ -1,9 +1,7 @@
-package CreationShip.demo.NIO;
+package CreationShip.demo.NIO.connector;
 
-import CreationShip.demo.NIO.connector.AnswerQuestionConnector;
-import CreationShip.demo.NIO.connector.AskQuestionConnector;
-import CreationShip.demo.NIO.connector.GetAnswerConnector;
-import CreationShip.demo.NIO.connector.IConnector;
+import CreationShip.demo.NIO.comunic.Reader;
+import CreationShip.demo.NIO.comunic.Writer;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
@@ -17,8 +15,6 @@ public class Connection implements IConnection{
     private AnswerQuestionConnector answerQuestionConnector;
     private AskQuestionConnector askQuestionConnector;
     private GetAnswerConnector getAnswerConnector;
-
-    private int counter = 0;
 
     private HashMap<Integer, IConnector> stages = new HashMap<>();
 
@@ -54,7 +50,6 @@ public class Connection implements IConnection{
 
     @Override
     public void upStage() {
-        counter = 0;
         stage++;
         iConnector = stages.get(stage);
 
@@ -64,7 +59,6 @@ public class Connection implements IConnection{
 
     @Override
     public void downStage() {
-        counter = 0;
         stage--;
         iConnector = stages.get(stage);
 
@@ -87,17 +81,11 @@ public class Connection implements IConnection{
 
     @Override
     public String read() {
-       // counter++;
 
-
-        String msg = iConnector.read();
-
-        return msg;
+        return iConnector.read();
 
 
     }
 
-    public int getCounter() {
-        return counter;
-    }
+
 }

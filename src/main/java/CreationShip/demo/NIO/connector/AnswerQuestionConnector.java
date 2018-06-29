@@ -1,8 +1,7 @@
 package CreationShip.demo.NIO.connector;
 
-import CreationShip.demo.NIO.IConnection;
-import CreationShip.demo.NIO.Reader;
-import CreationShip.demo.NIO.Writer;
+import CreationShip.demo.NIO.comunic.Reader;
+import CreationShip.demo.NIO.comunic.Writer;
 import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
