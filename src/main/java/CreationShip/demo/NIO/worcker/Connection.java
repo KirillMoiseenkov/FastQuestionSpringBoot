@@ -1,7 +1,11 @@
-package CreationShip.demo.NIO.connector;
+package CreationShip.demo.NIO.worcker;
 
 import CreationShip.demo.NIO.comunic.Reader;
 import CreationShip.demo.NIO.comunic.Writer;
+import CreationShip.demo.NIO.worcker.Stages.AnswerQuestionConnector;
+import CreationShip.demo.NIO.worcker.Stages.AskQuestionConnector;
+import CreationShip.demo.NIO.worcker.Stages.GetAnswerConnector;
+import CreationShip.demo.NIO.worcker.Stages.IConnector;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;

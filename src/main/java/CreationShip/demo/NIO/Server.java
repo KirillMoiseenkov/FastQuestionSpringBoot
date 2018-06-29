@@ -2,8 +2,8 @@ package CreationShip.demo.NIO;
 
 import CreationShip.demo.NIO.comunic.Reader;
 import CreationShip.demo.NIO.comunic.Writer;
-import CreationShip.demo.NIO.connector.AskQuestionConnector;
-import CreationShip.demo.NIO.connector.Connection;
+import CreationShip.demo.NIO.worcker.Stages.AskQuestionConnector;
+import CreationShip.demo.NIO.worcker.Connection;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;

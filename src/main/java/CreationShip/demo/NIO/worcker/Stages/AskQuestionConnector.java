@@ -1,32 +1,28 @@
-package CreationShip.demo.NIO.connector;
+package CreationShip.demo.NIO.worcker.Stages;
 
 import CreationShip.demo.NIO.comunic.Reader;
 import CreationShip.demo.NIO.comunic.Writer;
-import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
 
-public class AnswerQuestionConnector implements IConnector {
+public class AskQuestionConnector implements IConnector {
 
     private Reader reader;
     private Writer writer;
     private MessageService messageService;
     private QuestionService questionService;
-    private Question question;// = new Question();
+    private Question question;
     private int counter = 0;
 
-    public AnswerQuestionConnector(MessageService messageService, QuestionService questionService){
+    public AskQuestionConnector(MessageService messageService, QuestionService questionService){
         this.messageService = messageService;
         this.questionService = questionService;
-
     }
-
-
 
     @Override
     public boolean getStateStage() {
-        if(counter > 3){
+        if(counter > 1){
             counter = 0;
             return true;
         }else {
@@ -36,50 +32,32 @@ public class AnswerQuestionConnector implements IConnector {
 
     public void setReader(Reader reader) {
         this.reader = reader;
+
+        counter++;
     }
 
     public void setWriter(Writer writer) {
-
-        counter++;
         this.writer = writer;
     }
 
     @Override
     public String read() {
 
-        String responce = reader.read();
+        System.out.println("read question");
 
-        System.out.println(question.toString());
+        question = new Question(reader.read());
+        question = questionService.saveOrUpdate(question);
 
-        Message message = new Message(question,responce);
-        messageService.saveOrUpdate(message);
-
-
-        return responce;
+        return question.getQuestion();//reader.read();
     }
 
     @Override
     public void write() {
 
+        System.out.println("ask question");
+        writer.write("Ask question, please");
 
 
-        question = questionService.getRandomQuestion(1).get(0);
-        while (question.getQuestion().length() < 4) {
-            question = questionService.getRandomQuestion(1).get(0);
-        }
-
-
-        writer.write(question.getQuestion() + System.lineSeparator());
-
-        System.out.println( "question is " + question.getQuestion());
-
-    }
-
-    public void write(String msg) {
-
-        //Question question = questionService.getRandomQuestion(1).get(0);
-        //writer.write(question.getQuestion());
-        writer.write(msg);
     }
 
     @Override
