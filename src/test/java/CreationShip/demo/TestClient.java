@@ -8,6 +8,9 @@ public class TestClient {
     public static void main(String[] args) throws IOException {
 
         Socket socket = null;
+
+
+
         try {
 
 
@@ -22,7 +25,9 @@ public class TestClient {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 
-            for (int i = 0; i < 4; i++) {
+            //out.println("om");
+
+            for (int i = 0;i<4;i++) {
                 System.out.println(br.readLine());
                 System.out.print("client: ");
                 String userInput = stdIn.readLine();

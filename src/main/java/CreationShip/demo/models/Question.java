@@ -17,6 +17,10 @@ public class Question {
 
     public Question(){};
 
+    public Question(String question){
+        this.question = question;
+    };
+
     public long getId() {
         return id;
     }
