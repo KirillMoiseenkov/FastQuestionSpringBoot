@@ -53,12 +53,10 @@ public class AnswerQuestionConnector implements IConnector {
         }
 
 
-        System.out.println(question.getQuestion() + " pre");
-
         writer.write(question.getQuestion() + System.lineSeparator());
 
-        System.out.println(question.getQuestion() + " after");
-        //writer.write(reader.getResponce());
+        System.out.println( "question is" + question.getQuestion());
+
     }
 
     public void write(String msg) {

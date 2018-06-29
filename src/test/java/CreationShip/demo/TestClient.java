@@ -25,9 +25,9 @@ public class TestClient {
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
 
 
-            out.println("om");
+            //out.println("om");
 
-            for (;;) {
+            for (int i = 0;i<3;i++) {
                 System.out.println(br.readLine());
                 System.out.print("client: ");
                 String userInput = stdIn.readLine();

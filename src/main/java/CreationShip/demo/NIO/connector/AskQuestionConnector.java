@@ -30,15 +30,21 @@ public class AskQuestionConnector implements IConnector {
     @Override
     public String read() {
 
-        Question question = new Question(reader.read());
-        question = questionService.saveOrUpdate(question);
+        System.out.println("read question");
 
-        return question.getQuestion();
+       // Question question = new Question(reader.read());
+      //  question = questionService.saveOrUpdate(question);
+
+        return reader.read();
     }
 
     @Override
     public void write() {
-        writer.write("Ask question, please");
+
+        System.out.println("ask question");
+        writer.write("Ask question, please" + System.lineSeparator());
+
+
     }
 
     @Override

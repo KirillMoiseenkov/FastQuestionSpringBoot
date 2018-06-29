@@ -17,6 +17,7 @@ public class Connection implements IConnection{
     private AskQuestionConnector askQuestionConnector;
     private GetAnswerConnector getAnswerConnector;
 
+    private int counter = 0;
 
     private HashMap<Integer, IConnector> stages = new HashMap<>();
 
@@ -52,24 +53,45 @@ public class Connection implements IConnection{
 
     @Override
     public void upStage() {
+        counter = 0;
         stage++;
         iConnector = stages.get(stage);
+
+        System.out.println("up stage");
 
     }
 
     @Override
     public void downStage() {
+        counter = 0;
         stage--;
         iConnector = stages.get(stage);
+
+        System.out.println("down stage");
     }
 
     @Override
     public void write() {
+
         iConnector.write();
+
     }
 
     @Override
     public String read() {
-       return iConnector.read();
+        counter++;
+        if (counter > 2){
+            upStage();
+        }
+
+        String msg = iConnector.read();
+
+        return msg;
+
+
+    }
+
+    public int getCounter() {
+        return counter;
     }
 }

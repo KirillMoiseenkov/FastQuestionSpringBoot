@@ -1,6 +1,7 @@
 package CreationShip.demo.NIO;
 
 import CreationShip.demo.NIO.connector.AnswerQuestionConnector;
+import CreationShip.demo.NIO.connector.AskQuestionConnector;
 import CreationShip.demo.NIO.connector.IConnector;
 import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
@@ -78,7 +79,7 @@ public class EchoServer extends Thread {
         ByteBuffer buffer;
         countConnection.set(0);
         Map<SelectionKey, String> lastMessage = new HashMap<>();
-        Map<SelectionKey, AnswerQuestionConnector> connectorMap = new HashMap<>();
+        Map<SelectionKey, AskQuestionConnector> connectorMap = new HashMap<>();
 
         Map<SelectionKey,Connection> connectionMap = new HashMap<>();
 
@@ -126,7 +127,7 @@ public class EchoServer extends Thread {
 
                         if (!connectorMap.containsKey(key)) {
                             connectorMap.put(key,
-                                    new AnswerQuestionConnector(messageService, questionService));
+                                    new AskQuestionConnector(messageService, questionService));
                         }
 
                         if (!connectionMap.containsKey(key)) {
@@ -137,10 +138,6 @@ public class EchoServer extends Thread {
 
                         connection.setReader(reader);
 
-                        /*AnswerQuestionConnector answerQuestionConnector = connectorMap.get(key);
-                        answerQuestionConnector.setReader(reader);
-                        answerQuestionConnector.read();*/
-
                         connection.read();
 
                         //  read(buffer, key, selector, lastMessage, reader);
@@ -148,21 +145,22 @@ public class EchoServer extends Thread {
 
                     if (key.isValid() && key.isWritable()) {
 
+
+                        if (!connectionMap.containsKey(key)) {
+                            connectionMap.put(key, new Connection(messageService,questionService));
+
+                          //  Connection connection = connectionMap.get(key);
+                          //  connection.upStage();
+                        }
+
+
+
                         writer = new Writer(buffer, key, selector);
                         writer.enableReadMode(true);
 
                         Connection connection = connectionMap.get(key);
                         connection.setWrite(writer);
                         connection.write();
-
-                        /*
-                        AnswerQuestionConnector answerQuestionConnector = connectorMap.get(key);
-
-                        answerQuestionConnector.setWriter(writer);
-
-                        answerQuestionConnector.write("123" + System.lineSeparator());
-*/
-
 
                         // write(buffer, key, selector, lastMessage, writer);
 
@@ -176,44 +174,11 @@ public class EchoServer extends Thread {
         System.out.println("end = " + Thread.currentThread());
     }
 
-    private void write(ByteBuffer buffer, SelectionKey key, Selector selector,
-                       Map<SelectionKey, String> lastMessage, Writer writer) throws IOException {
-
-        writer.write(lastMessage.get(key));
-
-
-    }
-
-    private void write(AnswerQuestionConnector answerQuestionConnector) throws IOException {
-
-        answerQuestionConnector.write("123");
-
-    }
-
-    private void read(ByteBuffer buffer, SelectionKey key, Selector selector, Map<SelectionKey, String> lastMessage, Reader reader) {
-        //   private void read(AnswerQuestionConnector answerQuestionConnector) {
-
-        reader = new Reader(buffer, key, selector);
-
-        AnswerQuestionConnector answerQuestionConnector =
-                new AnswerQuestionConnector(messageService, questionService);
-
-
-        reader.enableWriteMode(true);
-
-        answerQuestionConnector.setReader(reader);
-        //lastMessage.put(key,reader.read());
-        lastMessage.put(key, answerQuestionConnector.read());
-
-        //answerQuestionConnector.read();
-
-    }
-
     private void register(Selector selector, ServerSocketChannel serverSocket) throws IOException {
 
         SocketChannel client = serverSocket.accept();
         client.configureBlocking(false);
-        client.register(selector, SelectionKey.OP_READ);
+        client.register(selector, SelectionKey.OP_WRITE);
 
     }
 
