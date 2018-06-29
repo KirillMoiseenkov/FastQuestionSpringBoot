@@ -13,14 +13,27 @@ public class AskQuestionConnector implements IConnector {
     private MessageService messageService;
     private QuestionService questionService;
     private Question question;
+    private int counter = 0;
 
     public AskQuestionConnector(MessageService messageService, QuestionService questionService){
         this.messageService = messageService;
         this.questionService = questionService;
     }
 
+    @Override
+    public boolean getStateStage() {
+        if(counter > 1){
+            counter = 0;
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     public void setReader(Reader reader) {
         this.reader = reader;
+
+        counter++;
     }
 
     public void setWriter(Writer writer) {
@@ -32,17 +45,17 @@ public class AskQuestionConnector implements IConnector {
 
         System.out.println("read question");
 
-       // Question question = new Question(reader.read());
-      //  question = questionService.saveOrUpdate(question);
+        question = new Question(reader.read());
+        question = questionService.saveOrUpdate(question);
 
-        return reader.read();
+        return question.getQuestion();//reader.read();
     }
 
     @Override
     public void write() {
 
         System.out.println("ask question");
-        writer.write("Ask question, please" + System.lineSeparator());
+        writer.write("Ask question, please");
 
 
     }
@@ -51,4 +64,11 @@ public class AskQuestionConnector implements IConnector {
     public Question getQuestion() {
         return question;
     }
+
+    @Override
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+
 }

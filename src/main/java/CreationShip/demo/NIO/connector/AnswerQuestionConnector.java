@@ -14,8 +14,8 @@ public class AnswerQuestionConnector implements IConnector {
     private Writer writer;
     private MessageService messageService;
     private QuestionService questionService;
-    private Question question;
-
+    private Question question;// = new Question();
+    private int counter = 0;
 
     public AnswerQuestionConnector(MessageService messageService, QuestionService questionService){
         this.messageService = messageService;
@@ -23,11 +23,25 @@ public class AnswerQuestionConnector implements IConnector {
 
     }
 
+
+
+    @Override
+    public boolean getStateStage() {
+        if(counter > 3){
+            counter = 0;
+            return true;
+        }else {
+            return false;
+        }
+    }
+
     public void setReader(Reader reader) {
         this.reader = reader;
     }
 
     public void setWriter(Writer writer) {
+
+        counter++;
         this.writer = writer;
     }
 
@@ -36,7 +50,10 @@ public class AnswerQuestionConnector implements IConnector {
 
         String responce = reader.read();
 
-      //  messageService.saveOrUpdate(new Message(question,responce));
+        System.out.println(question.toString());
+
+        Message message = new Message(question,responce);
+        messageService.saveOrUpdate(message);
 
 
         return responce;
@@ -47,7 +64,7 @@ public class AnswerQuestionConnector implements IConnector {
 
 
 
-        Question question = questionService.getRandomQuestion(1).get(0);
+        question = questionService.getRandomQuestion(1).get(0);
         while (question.getQuestion().length() < 4) {
             question = questionService.getRandomQuestion(1).get(0);
         }
@@ -55,7 +72,7 @@ public class AnswerQuestionConnector implements IConnector {
 
         writer.write(question.getQuestion() + System.lineSeparator());
 
-        System.out.println( "question is" + question.getQuestion());
+        System.out.println( "question is " + question.getQuestion());
 
     }
 
@@ -70,4 +87,11 @@ public class AnswerQuestionConnector implements IConnector {
     public Question getQuestion() {
         return question;
     }
+
+    @Override
+    public void setQuestion(Question question) {
+        this.question = question;
+    }
+
+
 }

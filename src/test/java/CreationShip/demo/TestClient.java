@@ -27,7 +27,7 @@ public class TestClient {
 
             //out.println("om");
 
-            for (int i = 0;i<3;i++) {
+            for (int i = 0;i<4;i++) {
                 System.out.println(br.readLine());
                 System.out.print("client: ");
                 String userInput = stdIn.readLine();

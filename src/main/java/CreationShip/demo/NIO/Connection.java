@@ -4,6 +4,7 @@ import CreationShip.demo.NIO.connector.AnswerQuestionConnector;
 import CreationShip.demo.NIO.connector.AskQuestionConnector;
 import CreationShip.demo.NIO.connector.GetAnswerConnector;
 import CreationShip.demo.NIO.connector.IConnector;
+import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
 
@@ -73,16 +74,21 @@ public class Connection implements IConnection{
     @Override
     public void write() {
 
+        if(iConnector.getStateStage()) {
+            Question question = new Question();
+            question = iConnector.getQuestion();
+            upStage();
+            iConnector.setQuestion(question);
+        }
+
         iConnector.write();
 
     }
 
     @Override
     public String read() {
-        counter++;
-        if (counter > 2){
-            upStage();
-        }
+       // counter++;
+
 
         String msg = iConnector.read();
 

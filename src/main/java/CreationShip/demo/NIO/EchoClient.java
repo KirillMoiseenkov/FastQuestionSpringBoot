@@ -18,18 +18,6 @@ public class EchoClient {
     private static EchoClient instance;
     private static CharsetEncoder encoder = Charset.forName("US-ASCII").newEncoder();
 
-    public static EchoClient start() {
-        if (instance == null)
-            instance = new EchoClient();
-
-        return instance;
-    }
-
-    public static void stop() throws IOException {
-        client.close();
-        buffer = null;
-    }
-
     private EchoClient() {
         try {
             client = SocketChannel.open(new InetSocketAddress("localhost", 8080));
@@ -39,18 +27,22 @@ public class EchoClient {
         }
     }
 
-    public void sendMessage(String msg) throws IOException {
-
-        client.write(ByteBuffer.wrap(msg.getBytes()));
-
-        buffer.flip();
-        buffer.clear();
+    public void sendMessage(BufferedReader stdIn) throws IOException {
 
         client.read(buffer);
 
         String responce = new String(Arrays.copyOfRange(buffer.array(),0, buffer.position()));
 
-        System.out.println(responce);
+        System.out.println("responce: " + responce.replace(System.lineSeparator(),""));
+
+        buffer.flip();
+        buffer.clear();
+
+        String msg = stdIn.readLine();
+        client.write(ByteBuffer.wrap(msg.getBytes()));
+
+
+
 
     }
 
@@ -67,20 +59,15 @@ public class EchoClient {
 
     public static void main(String[] args) throws IOException {
 
-        EchoClient echoClient = EchoClient.start();
-
+        EchoClient echoClient = new EchoClient();
 
         BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
 
         while (true){
 
-            System.out.println("enter message");
+            echoClient.sendMessage(stdIn);
 
-           echoClient.sendMessage(stdIn.readLine());
-
-
-
-        }
+            }
 
 
     }

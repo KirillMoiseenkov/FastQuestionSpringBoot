@@ -10,7 +10,10 @@ public interface IConnector {
     public void write();
     public Question getQuestion();
 
+    public boolean getStateStage();
+
     public void setWriter(Writer writer);
     public void setReader(Reader reader);
 
+    public void setQuestion(Question question);
 }
