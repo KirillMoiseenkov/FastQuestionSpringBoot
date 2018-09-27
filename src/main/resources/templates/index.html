@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+>
+<head>
+    <title>Fast Question</title>
+
+    <title>Welcome Security with Spring Boot!</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+
+</head>
+
+<script>
+ var dt;
+ $.get( "/getRandomQustion", function( data ) {
+  dt = JSON.stringify(data);
+  console.log(dt);
+});
+
+</script>
+
+<body>
+
+<div class="container">
+
+    <form class="form-group">
+
+            <div>
+                <div class="text-left">
+                    <label>Отвечай!</label>
+                    <script>dt</script>
+                    <div><input class="form-control" type="text"></div>
+                </div>
+            </div>
+
+
+    </form>
+
+</div>
+
+
+
+
+</body>
+
+
+
+</html>

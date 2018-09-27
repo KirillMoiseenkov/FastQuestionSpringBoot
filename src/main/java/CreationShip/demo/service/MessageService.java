@@ -18,8 +18,6 @@ public class MessageService implements ISerivce<Message>{
 
     public MessageService(){}
 
-
-
     @Override
     @Transactional(readOnly = true)
     public List<Message> getAll() {

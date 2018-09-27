@@ -46,4 +46,5 @@ public class QuestionService implements ISerivce<Question> {
     public List<Question> getRandomQuestion(int count) {
         return questionDao.getRandomQuestion(count);
     }
+
 }
