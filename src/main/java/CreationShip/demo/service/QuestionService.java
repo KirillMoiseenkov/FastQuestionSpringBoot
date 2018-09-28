@@ -1,6 +1,7 @@
 package CreationShip.demo.service;
 
 import CreationShip.demo.dao.QuestionDaoImpl;
+import CreationShip.demo.models.Language;
 import CreationShip.demo.models.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,11 @@ public class QuestionService implements ISerivce<Question> {
     @Transactional(readOnly = true)
     public List<Question> getRandomQuestion(int count) {
         return questionDao.getRandomQuestion(count);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Question> getRandomQuestionByLanguage(int count, String lang) {
+        return questionDao.getRandomQuestionByLanguage(count,lang);
     }
 
 }

@@ -7,9 +7,11 @@ import CreationShip.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@RestController
 public class MessageController {
 
     @Autowired
@@ -21,8 +23,8 @@ public class MessageController {
 
     @RequestMapping(value = "getAllMessage")
     @ResponseBody
-    public List<Message> getAllMessage(){
-        return messageService.getAll();
+    public String getAllMessage(){
+        return messageService.getAll().toString();
     }
 
 }
