@@ -1,6 +1,8 @@
 package CreationShip.demo.models;
 
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,11 +17,19 @@ public class Question {
     @Column(name = "question", nullable = false)
     private String question;
 
-    public Question(){};
+    @ManyToOne
+    @JoinColumn(name="language_id", nullable = false)
+    private Language language_id;
 
-    public Question(String question){
+
+    public Question(){}
+
+
+
+    public Question(String question, Language language_id){
+        this.language_id = language_id;
         this.question = question;
-    };
+    }
 
     public long getId() {
         return id;
@@ -27,6 +37,14 @@ public class Question {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public Language getLanguage_id() {
+        return language_id;
+    }
+
+    public void setLanguage_id(Language language_id) {
+        this.language_id = language_id;
     }
 
     public String getQuestion() {
