@@ -44,17 +44,8 @@ public class QuestionDaoImpl implements IDAO<Question> {
 
     public List<Question> getRandomQuestionByLanguage(int count, String lang) {
 
-        Language L = (Language) entityManager.createQuery("FROM Language WHERE language_name=:name")
-                .setParameter("name",lang)
-                .getResultList()
-                .get(0);
-
-        return (List<Question>) entityManager.createQuery(
-                "FROM Question WHERE language_id = :lang ORDER BY rand()"
-                )
-                .setParameter("lang", L)
-                .setMaxResults(count)
-                .getResultList();
+            return entityManager.createQuery("SELECT p FROM Question p WHERE p.language_id.language_name = :language_name ORDER BY rand()")
+                .setParameter("language_name",lang).setMaxResults(count).getResultList();
     }
 
 
