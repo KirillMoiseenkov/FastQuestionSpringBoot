@@ -60,6 +60,7 @@ public class Question {
         return "Question{" +
                 "id=" + id +
                 ", question='" + question + '\'' +
+                ", language_id=" + language_id.toString() +
                 '}';
     }
 }

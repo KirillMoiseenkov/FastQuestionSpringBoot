@@ -1,54 +1,52 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns="http://www.w3.org/1999/xhtml"
->
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Fast Question</title>
-
-    <title>Welcome Security with Spring Boot!</title>
-    <link rel="stylesheet"
-          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
-    <script
-            src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script
-            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-
-
-</head>
-
-<script>
- var dt;
- $.get( "/getRandomQuestion", function( data ) {
-  dt = JSON.stringify(data);
-  console.log(dt);
-});
-
-</script>
-
+	<title>Fast Question</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>val demo</title>
+	
+	<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+	<!-- Последняя компиляция и сжатый CSS -->  
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
 <body>
+	
+ <div class="container">
 
-<div class="container">
+	<div class="text-right">	
+	<button type="text" class="btn btn-primary randomQuestion">Отвечать на рандомный вопрос</button>
+	<button type="text" class="btn btn-primary askQuestion">Задать вопрос</button>
+	</div>	
 
-    <form class="form-group">
-
-            <div>
-                <div class="text-left">
-                    <label>Отвечай!</label>
-                    <div><input class="form-control" type="text"></div>
-                </div>
-            </div>
-
-
-    </form>
-
-</div>
-
-
-
-
+ 
+ <h1 class="text-center" style="color:blue">Fast Question</h1>
+ 
+ <div>
+	<h4 class="text-center header-text"> Answer on the three question and after it you can ask your our question</h4>
+ </div>
+ 
+<form>
+  <div class="form-group text-center">
+    <label for="message" class="new"></label>
+    <input type="text" class="form-control"  id="message" placeholder="Enter answer">
+    </div>
+		
+	<div class="text-center">	
+  <button type="text" class="btn btn-primary">Отправить</button>
+	</div>
+  </form>
+	
+	<br>
+	
+  <ul class="list-group answers text-center">
+  <li class="list-group-item active">Question</li>
+ </ul>
+  
+</div >
+ 
 </body>
 
+  <script src="script.js"></script>
 
 
 </html>

@@ -1,6 +1,6 @@
 package CreationShip.demo.controller;
 
-import CreationShip.demo.models.Language;
+import CreationShip.demo.dao.MessageDaoImpl;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
@@ -9,10 +9,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@RestController(value = "question")
+@RestController
+@SessionAttributes("question")
 public class QuestionController {
+
 
     @Autowired
     MessageService messageService;
@@ -27,7 +30,7 @@ public class QuestionController {
         return questionService.getAll();
     }
 
-    @RequestMapping(value = "getRandomQuestion")
+    @RequestMapping(value = "getRandomQustion")
     @ResponseBody
     public Question getRandomQustion(){
         return questionService.getRandomQuestion(1).get(0);
@@ -35,10 +38,18 @@ public class QuestionController {
 
     @RequestMapping(value = "getRandomQuestionByLanguage")
     @ResponseBody
-    public Question getRandomQuestionByLanguage(@RequestParam("lang") String lang)
+    public Question getRandomQuestionByLanguage(/*@RequestParam("lang") String lang*/)
     {
-        return questionService.getRandomQuestionByLanguage(1, lang).get(0);
+        return questionService.getRandomQuestionByLanguage(1, /*lang*/ "russian").get(0);
     }
 
 
+
+
+    @RequestMapping(value = "getSessionQuestion")
+    @ResponseBody
+    public String getSessionQuestion(@ModelAttribute("question") Question question){
+        System.out.println("pon");
+        return question.toString();
+    }
 }

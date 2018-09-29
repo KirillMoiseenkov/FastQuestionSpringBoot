@@ -10,6 +10,7 @@ public class Language
     @Id
     @Column(name = "language_id", nullable = false)
     @GeneratedValue(strategy = GenerationType.AUTO)
+
     private int language_id;
     @Column(name = "language_name",unique = true, nullable = false)
     private String language_name;
