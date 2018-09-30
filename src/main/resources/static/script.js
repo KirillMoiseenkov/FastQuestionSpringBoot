@@ -9,7 +9,7 @@ var question;
 
 
 var timerId = setInterval(function() {
-	  if(a>4){
+	  if(a>10){
 		  getMessage();
 		  if(a>14)
 		  clearInterval(timerId)
@@ -47,7 +47,7 @@ function addNewAnswer(){
 	  $( "<li class=\"list-group-item autocomplete\">Vestibulum at eros</li>" ).appendTo( ".answers" );
 }
 
-var answer;
+
 
 $(document).ready( function () {
 
@@ -59,50 +59,44 @@ $(document).ready( function () {
 
 $('form').submit( function (event) {
 
-        var formJson = [];
+        var data = JSON.stringify( $( this ).serializeArray());
 
         var secondFormJson = [];
 
-        formJson.push({id:1, message:'123'});
-
-        secondFormJson.push({id:1, message:'123', question_id:question});
-
-        var data = JSON.stringify( $( this ).serializeArray());
+        secondFormJson.push({id:1, message:JSON.parse(data)[0].value, question_id:question});
 
 
-            	$.ajax({
-                url: '/addMessage',
-                type: 'POST',
-                data: JSON.stringify(secondFormJson),
-                contentType: 'application/json; charset=utf-8',
-                dataType: 'json',
-                async: false,
-                success: function(msg) {
 
-                }
-            });
-
-		    $(".new" ).text("wait");
+            $(".new" ).text("wait");
 
 			if(mode === true)
 			{
-
-
+			    a=1;
+                postAnswer(secondFormJson);
                 event.preventDefault();
                 getQuestion();
-        }
-			else if(a <= 3){
-			var formdata = $(this).serialize();
-            getQuestion();
-			a++;
+            }
 
-			event.preventDefault();
-		}else if(a == 4){
-			answer = $(this).serialize();
-			changeMessage("Ask your question, and wait answers");
+			else if(a <= 2){
+		        postAnswer(secondFormJson);
+                getQuestion();
+			    a++;
+                event.preventDefault();
+		}else if(a == 3){
+
+            changeMessage("Ask your question, and wait answers");
+            $(".new" ).text("enter your answer, SICH");
 			event.preventDefault();
 			a++;
-		}else{
+        }else if(a == 4){
+		     var thirdFormJson = [];
+
+             thirdFormJson.push({id:1, question:JSON.parse(data)[0].value, language_id:question.language_id});
+
+             postQuestion(thirdFormJson);
+             event.preventDefault();
+             a++;
+        }else{
 			changeMessage("Answers:");
 			event.preventDefault();
 			$( "form" ).slideUp();
@@ -115,11 +109,33 @@ function deleteAnswers(){
 	$("li.autocomplete").remove();
 }
 	
-	
+
+function postQuestion(formdata){
+            	$.ajax({
+                    url: '/addQuestion',
+                    type: 'POST',
+                    data: JSON.stringify(formdata),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    async: false,
+                    success: function(msg) {
+
+                    }
+                });
+}
+
 function postAnswer(formdata){
-    $.post( "ajax/test.html", function( data ) {
-      $( ".result" ).html( data );
-    });
+            	$.ajax({
+                    url: '/addMessage',
+                    type: 'POST',
+                    data: JSON.stringify(formdata),
+                    contentType: 'application/json; charset=utf-8',
+                    dataType: 'json',
+                    async: false,
+                    success: function(msg) {
+
+                    }
+                });
 }
 
 
@@ -130,8 +146,6 @@ $.get( "/getRandomQuestionByLanguage", function( data ) {
              $(".new" ).text(question.question);
      });
 }
-
-
 
 function getMessage(){
 	

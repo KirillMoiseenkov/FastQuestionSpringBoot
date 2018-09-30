@@ -52,8 +52,7 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "addQuestion")
-    public String addNewQuestion(@RequestBody Message answer){
-        System.out.println(answer.toString());
-        return answer.toString();
+    public void addNewQuestion(@RequestBody List<Question> questions){
+        questionService.saveOrUpdate(questions.get(0));
     }
 }

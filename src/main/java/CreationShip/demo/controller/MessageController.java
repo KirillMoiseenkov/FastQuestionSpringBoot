@@ -45,7 +45,7 @@ public class MessageController {
     @RequestMapping(value = "addMessage")
     public void addMessage(@RequestBody List<Message> message){
 
-        System.out.println(message.toString());
+        messageService.saveOrUpdate(message.get(0));
 
     }
 
