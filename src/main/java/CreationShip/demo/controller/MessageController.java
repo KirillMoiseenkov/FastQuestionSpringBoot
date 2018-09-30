@@ -1,10 +1,13 @@
 package CreationShip.demo.controller;
 
+import CreationShip.demo.models.Language;
 import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
+import CreationShip.demo.service.LanguageService;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,13 +23,21 @@ public class MessageController {
     @Autowired
     QuestionService questionService;
 
+    @Autowired
+    LanguageService languageService;
 
     @RequestMapping(value = "getAllMessage")
     @ResponseBody
-    public String getAllMessage(){
-        return messageService.getAll().toString();
+    public Message getAllMessage(){
+        return messageService.getAll().get(0);
     }
 
+    @RequestMapping(value = "getMessageByQuestion")
+    @ResponseBody
+    public List<Message> getMessageByQuestion(){
 
+
+        return null;
+    }
 
 }

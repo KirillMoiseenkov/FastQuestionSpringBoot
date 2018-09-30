@@ -8,10 +8,10 @@ public class Language
 {
 
     @Id
-    @Column(name = "language_id", nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
-
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int language_id;
+
     @Column(name = "language_name",unique = true, nullable = false)
     private String language_name;
 

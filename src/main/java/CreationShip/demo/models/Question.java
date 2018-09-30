@@ -11,7 +11,7 @@ public class Question {
 
     @Id
     @Column(name = "id", unique = true, nullable = false)
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "question", nullable = false)
@@ -59,7 +59,7 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "id=" + id +
-                ", question='" + question + '\'' +
+                ", question='" + question.toString() + '\'' +
                 ", language_id=" + language_id.toString() +
                 '}';
     }

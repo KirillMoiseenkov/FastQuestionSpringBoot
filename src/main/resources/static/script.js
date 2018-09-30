@@ -59,9 +59,10 @@ $(document).ready( function () {
 			if(mode === true)
 			{
                 event.preventDefault();
+
                 getQuestion();
 
-                
+
             }
 			else if(a <= 3){	
 			var formdata = $(this).serialize();
@@ -91,7 +92,9 @@ function deleteAnswers(){
 	
 	
 function postAnswer(formdata){
-		
+    $.post( "ajax/test.html", function( data ) {
+      $( ".result" ).html( data );
+    });
 }
 
 
@@ -101,10 +104,9 @@ $.get( "/getRandomQuestionByLanguage", function( data ) {
              question =  data;
              $(".new" ).text(question.question);
      });
-
-
-
 }
+
+
 
 function getMessage(){
 	

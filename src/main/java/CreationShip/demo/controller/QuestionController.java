@@ -1,6 +1,7 @@
 package CreationShip.demo.controller;
 
 import CreationShip.demo.dao.MessageDaoImpl;
+import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
@@ -43,13 +44,16 @@ public class QuestionController {
         return questionService.getRandomQuestionByLanguage(1, /*lang*/ "russian").get(0);
     }
 
-
-
-
     @RequestMapping(value = "getSessionQuestion")
     @ResponseBody
     public String getSessionQuestion(@ModelAttribute("question") Question question){
         System.out.println("pon");
         return question.toString();
+    }
+
+    @RequestMapping(value = "addQuestion")
+    public String addNewQuestion(@RequestBody Message answer){
+        System.out.println(answer.toString());
+        return answer.toString();
     }
 }
