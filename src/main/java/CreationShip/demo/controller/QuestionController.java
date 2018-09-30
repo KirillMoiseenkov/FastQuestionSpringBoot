@@ -41,7 +41,7 @@ public class QuestionController {
     @ResponseBody
     public Question getRandomQuestionByLanguage(/*@RequestParam("lang") String lang*/)
     {
-        return questionService.getRandomQuestionByLanguage(1, /*lang*/ "russian").get(0);
+        return questionService.getRandomQuestionByLanguage(1, /*lang*/ "Was").get(0);
     }
 
     @RequestMapping(value = "getSessionQuestion")

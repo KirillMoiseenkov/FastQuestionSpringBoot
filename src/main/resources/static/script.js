@@ -6,6 +6,8 @@ var a = 1;
 var mode = false;
 var question;
 
+
+
 var timerId = setInterval(function() {
 	  if(a>4){
 		  getMessage();
@@ -14,13 +16,6 @@ var timerId = setInterval(function() {
 		  a++;
 		  }
 	}, 700);
-
-
-/*$( "form" ).submit(function() {
-  console.log("uup");
-  $(".new" ).text(a);
-  a++;
-});*/
 
 
 $( ".randomQuestion" ).click(function() {
@@ -55,35 +50,65 @@ function addNewAnswer(){
 var answer;
 
 $(document).ready( function () {
-		$('form').submit( function (event) {
+
+        getQuestion();
+
+
+});
+
+
+$('form').submit( function (event) {
+
+        var formJson = [];
+
+        var secondFormJson = [];
+
+        formJson.push({id:1, message:'123'});
+
+        secondFormJson.push({id:1, message:'123', question_id:question});
+
+        var data = JSON.stringify( $( this ).serializeArray());
+
+
+            	$.ajax({
+                url: '/addMessage',
+                type: 'POST',
+                data: JSON.stringify(secondFormJson),
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                async: false,
+                success: function(msg) {
+
+                }
+            });
+
+		    $(".new" ).text("wait");
+
 			if(mode === true)
 			{
+
+
                 event.preventDefault();
-
                 getQuestion();
-
-
-            }
-			else if(a <= 3){	
+        }
+			else if(a <= 3){
 			var formdata = $(this).serialize();
-				$.ajax({
-			    type: "POST",
-			    url: "https://api.jquery.com/val/",
-			    data: formdata
-			 });
-			return false;
+            getQuestion();
+			a++;
+
+			event.preventDefault();
 		}else if(a == 4){
 			answer = $(this).serialize();
 			changeMessage("Ask your question, and wait answers");
 			event.preventDefault();
+			a++;
 		}else{
 			changeMessage("Answers:");
 			event.preventDefault();
 			$( "form" ).slideUp();
 			$("ul").fadeIn(100);
-			
+
 			}
-	});
 });
 
 function deleteAnswers(){

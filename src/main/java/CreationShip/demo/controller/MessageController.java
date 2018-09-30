@@ -42,4 +42,12 @@ public class MessageController {
         return null;
     }
 
+    @RequestMapping(value = "addMessage")
+    public void addMessage(@RequestBody List<Message> message){
+
+        System.out.println(message.toString());
+
+    }
+
+
 }
