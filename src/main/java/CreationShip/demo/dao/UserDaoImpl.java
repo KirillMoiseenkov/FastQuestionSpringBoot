@@ -20,6 +20,17 @@ public class UserDaoImpl implements IDAO<User>
         return null;
     }
 
+    public Long getIdByUsername(String username)
+    {
+        return ((User) this.entityManager
+                .createQuery("SELECT u FROM User u WHERE u.username= :username")
+                .setParameter("username", username)
+                .setMaxResults(1)
+                .getResultList()
+                .get(0))
+                .getId();
+    }
+
     @Override
     public User getById(Long id) {
         return null;

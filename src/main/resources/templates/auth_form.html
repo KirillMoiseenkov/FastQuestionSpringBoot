@@ -10,8 +10,10 @@
     <input type="password" id="password_auth_text" name="password_auth_text" size="50"
            placeholder="Password" />
     <br />
+    <span id="auth_error_message_span">
+    </span>
     <input type="button" id="submit_auth_btn" value="Sing In" class="btn btn-success"
-           onclick="" />
+           onclick="sendAuthData()" />
     <input type="button" id="cancel_register_btn" value="Cancel" class="btn btn-danger"
            onclick="hideAuthForm()" />
 

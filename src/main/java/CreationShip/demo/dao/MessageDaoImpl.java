@@ -3,6 +3,7 @@ package CreationShip.demo.dao;
 import CreationShip.demo.models.Message;
 
 import CreationShip.demo.models.Question;
+import CreationShip.demo.models.user.User;
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -43,6 +44,16 @@ public class MessageDaoImpl implements IDAO<Message> {
 
         return (List<Message>) entityManager.createQuery("SELECT p FROM Message p WHERE p.question_id = :question_id")
                     .setParameter("question_id", question).getResultList();
+
+    }
+
+    public List<Message> getMessagesByUserId(Long user_id) {
+
+        User user = new User();
+        user.setId(user_id);
+
+        return (List<Message>) entityManager.createQuery("SELECT p FROM Message p WHERE p.user_id = :user_id")
+                .setParameter("user_id", user).getResultList();
 
     }
 
