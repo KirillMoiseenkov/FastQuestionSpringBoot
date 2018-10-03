@@ -75,6 +75,7 @@ function sendAuthData()
                 });
 
         hideAuthForm();
+        singInBtn.prop("disabled", true);
 
     }
     else
