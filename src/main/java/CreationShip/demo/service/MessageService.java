@@ -32,8 +32,8 @@ public class MessageService implements ISerivce<Message>{
 
     @Override
     @Transactional
-    public Message saveOrUpdate(Message message) {
-       return messageDao.saveOrUpdate(message);
+    public Message save(Message message) {
+       return messageDao.save(message);
     }
 
     @Override

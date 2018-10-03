@@ -28,8 +28,8 @@ public class LanguageService implements ISerivce<Language> {
 
     @Override
     @Transactional
-    public Language saveOrUpdate(Language language) {
-        return languageDao.saveOrUpdate(language);
+    public Language save(Language language) {
+        return languageDao.save(language);
     }
 
     @Override

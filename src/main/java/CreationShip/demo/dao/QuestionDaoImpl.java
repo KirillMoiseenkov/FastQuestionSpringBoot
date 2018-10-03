@@ -57,7 +57,7 @@ public class QuestionDaoImpl implements IDAO<Question> {
 
 
     @Override
-    public Question saveOrUpdate(Question question) {
+    public Question save(Question question) {
             return entityManager.merge(question);
     }
 

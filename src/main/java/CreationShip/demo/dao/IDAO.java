@@ -6,6 +6,6 @@ public interface IDAO <T>{
 
         List<T> getAll();
         T getById(Long id);
-        T saveOrUpdate(T t);
+        T save(T t);
         T remove(T t);
 }

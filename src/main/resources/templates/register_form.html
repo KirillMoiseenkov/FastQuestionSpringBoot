@@ -1,0 +1,25 @@
+<form id="register_form">
+
+    <h3>Please, enter your data...</h3>
+
+    <lablel for="username_register_text">Username:</lablel><br />
+    <input type="text" id="username_register_text" name="username_register_text" size="50"
+           placeholder="Enter your username between 6 and 20 characters..." />
+    <br />
+    <lablel for="password_register_text">Password:</lablel><br />
+    <input type="password" id="password_register_text" name="password_register_text" size="50"
+    placeholder="Enter your password between 6 and 32 characters..." />
+    <br />
+    <lablel for="con_password_register_text">Confirm password:</lablel><br />
+    <input type="password" id="con_password_register_text" name="con_password_register_text" size="50"
+           placeholder="Enter your password again..." />
+    <br />
+    <span id="register_from_error_message">
+    </span><br />
+
+
+    <input type="button" id="submit_register_btn" value="Sing Up" class="btn btn-success"
+        onclick="sendRegisterData()" />
+    <input type="button" id="cancel_register_btn" value="Cancel" class="btn btn-danger"
+           onclick="hideRegisterForm()" />
+</form>
