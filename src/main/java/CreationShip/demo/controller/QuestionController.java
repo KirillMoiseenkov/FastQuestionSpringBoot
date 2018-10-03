@@ -5,6 +5,7 @@ import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
@@ -34,9 +35,16 @@ public class QuestionController {
 
     @RequestMapping(value = "getRandomQuestionByLanguage")
     @ResponseBody
-    public Question getRandomQuestionByLanguage(/*@RequestParam("lang") String lang*/)
+    public Question getRandomQuestionByLanguage(@RequestParam("lang") String lang)
     {
-        return questionService.getRandomQuestionByLanguage(1, /*lang*/ "Was").get(0);
+        return questionService.getRandomQuestionByLanguage(1, lang).get(0);
+    }
+
+    @RequestMapping(value = "getAnswerForm")
+    @ResponseBody
+    public ModelAndView getAnswerForm()
+    {
+        return new ModelAndView("user_answer_on_question_form.html");
     }
 
     @RequestMapping(value = "getSessionQuestion")
@@ -47,7 +55,7 @@ public class QuestionController {
     }
 
     @RequestMapping(value = "addQuestion")
-    public void addNewQuestion(@RequestBody List<Question> questions){
-        questionService.save(questions.get(0));
+    public void addNewQuestion(@RequestBody Question question){
+        questionService.save(question);
     }
 }

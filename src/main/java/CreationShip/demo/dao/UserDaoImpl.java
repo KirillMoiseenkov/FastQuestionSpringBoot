@@ -26,6 +26,11 @@ public class UserDaoImpl implements IDAO<User>
                 .get(0));
     }
 
+    public User getUserByUsername(String username)
+    {
+        return this.entityManager.find(User.class, username);
+    }
+
     @Override
     public List<User> getAll() {
         return this.entityManager

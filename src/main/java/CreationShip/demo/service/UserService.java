@@ -23,10 +23,16 @@ public class UserService implements ISerivce<User>{
         return this.userDao.getUserByUsernameAndPassword(username, password) != null;
     }
 
+    @Transactional
+    public User getUserByUsername(String username)
+    {
+        return this.userDao.getUserByUsername(username);
+    }
+
     @Override
     @Transactional
     public List<User> getAll() {
-        return null;
+        return this.userDao.getAll();
     }
 
     @Transactional

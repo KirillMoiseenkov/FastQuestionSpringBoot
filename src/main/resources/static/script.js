@@ -1,3 +1,4 @@
+/*
 $(".new" ).text("questions");
 $("ul" ).hide();
 
@@ -150,4 +151,22 @@ $.get( "/getRandomQuestionByLanguage", function( data ) {
 function getMessage(){
 	
 	$( "<li class=\"list-group-item autocomplete\">" + a + "</li>" ).appendTo( ".answers" ).hide().show('slow');
+}
+*/
+///Oleg code
+var slidingDelay = 350;
+var answerOnQuestionGetBtn = $("#answer_on_question_get_btn");
+var placeForAnswerAndQuestion = $("#place_for_answer_and_question");
+
+function getAnswerForm()
+{
+    placeForAnswerAndQuestion.load("getAnswerForm #user_answer_on_question_form", function (){
+
+            generateQuestion();
+            answerOnQuestionGetBtn.prop("disabled", true);
+            placeForAnswerAndQuestion.hide();
+            placeForAnswerAndQuestion.slideDown(slidingDelay);
+
+
+        });
 }

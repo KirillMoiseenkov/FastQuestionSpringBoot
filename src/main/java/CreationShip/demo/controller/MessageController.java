@@ -1,9 +1,12 @@
 package CreationShip.demo.controller;
 
 import CreationShip.demo.models.Message;
+import CreationShip.demo.models.user.Role;
+import CreationShip.demo.models.user.User;
 import CreationShip.demo.service.LanguageService;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
+import CreationShip.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +14,9 @@ import java.util.List;
 
 @RestController
 public class MessageController {
+
+    @Autowired
+    UserService userService;
 
     @Autowired
     MessageService messageService;
@@ -37,9 +43,9 @@ public class MessageController {
     }*/
 
     @RequestMapping(value = "addMessage")
-    public void addMessage(@RequestBody List<Message> message){
+    public void addMessage(@RequestBody Message message){
 
-        messageService.save(message.get(0));
+        messageService.save(message);
 
     }
 

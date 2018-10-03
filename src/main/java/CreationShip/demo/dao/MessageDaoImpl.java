@@ -101,8 +101,10 @@ public class MessageDaoImpl implements IDAO<Message> {
     @Override
     public Message save(Message message) {
 
-            return entityManager.merge(message);
-     }
+        entityManager.persist(message);
+
+        return message;
+    }
 
 }
 

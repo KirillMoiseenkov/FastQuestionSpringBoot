@@ -2,19 +2,22 @@ package CreationShip.demo.controller;
 
 import CreationShip.demo.models.Message;
 import CreationShip.demo.models.user.User;
+import CreationShip.demo.service.GetTokenSerivce;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @SessionAttributes(types = User.class)
 public class UserController
 {
+
+    @Autowired
+    private GetTokenSerivce getTokenSerivce;
 
     @Autowired
     private UserService userService;
@@ -29,21 +32,24 @@ public class UserController
         return this.userService.validateUsernameAndPassword(user.getUsername(), user.getPassword());
     }
 
-
     @RequestMapping(value = "getMyMessages", method = RequestMethod.POST)
     @ResponseBody
-    public List<Message> getMyMessages(@RequestBody User user, SessionStatus sessionStatus)
+    public List<Message> getMyMessages(@ModelAttribute @RequestBody User user)
     {
-        //System.out.println(this.messageService.getMessagesByUser(user));
         return this.messageService.getMessagesByUser(user);
     }
 
     @RequestMapping(value = "addNewUser", method = RequestMethod.POST)
     @ResponseBody
-    public User addNewUser(@RequestBody User user, SessionStatus sessionStatus)
+    public User addNewUser(@RequestBody User user)
     {
-        this.userService.save(user);
-        return user;
+        if(this.userService.validateUsernameAndPassword(user.getUsername(), user.getPassword()))
+        {
+            this.userService.save(user);
+            return user;
+        }
+
+        return null;
     }
 
     @RequestMapping(value = "getRegisterForm",method = RequestMethod.GET)
