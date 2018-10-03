@@ -1,5 +1,6 @@
 package CreationShip.demo.service;
 
+import CreationShip.demo.dao.RoleDaoImpl;
 import CreationShip.demo.dao.UserDaoImpl;
 import CreationShip.demo.models.user.Role;
 import CreationShip.demo.models.user.User;
@@ -14,6 +15,9 @@ public class UserService implements ISerivce<User>{
 
     @Autowired
     private UserDaoImpl userDao;
+
+    @Autowired
+    private RoleDaoImpl roleDao;
 
     @Override
     @Transactional
@@ -30,7 +34,7 @@ public class UserService implements ISerivce<User>{
     @Override
     @Transactional
     public User save(User user) {
-        user.setRole_id(new Role(1L, "user"));
+        user.setRole_id(roleDao.getById(1L));
         return this.userDao.save(user);
     }
 
