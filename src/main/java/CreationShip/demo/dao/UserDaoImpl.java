@@ -15,9 +15,22 @@ public class UserDaoImpl implements IDAO<User>
     @PersistenceContext
     private EntityManager entityManager;
 
+    public User getUserByUsernameAndPassword(String username, String password)
+    {
+        return ((User) this.entityManager
+                .createQuery("SELECT u FROM User u WHERE u.username = :username AND u.password = :password")
+                .setParameter("username", username)
+                .setParameter("password", password)
+                .setMaxResults(1)
+                .getResultList()
+                .get(0));
+    }
+
     @Override
     public List<User> getAll() {
-        return null;
+        return this.entityManager
+                .createQuery("SELECT u FROM User u")
+                .getResultList();
     }
 
     public Long getIdByUsername(String username)

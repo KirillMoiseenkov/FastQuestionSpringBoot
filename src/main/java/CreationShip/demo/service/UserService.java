@@ -19,12 +19,8 @@ public class UserService implements ISerivce<User>{
     private RoleDaoImpl roleDao;
 
     @Transactional
-    public boolean validateUsernameAndPassword(String username, String password) {
-        return userDao
-                .getAll()
-                .stream()
-                .filter(u -> u.getUsername() == username && u.getPassword() == password)
-                .count() != 0;
+    public Boolean validateUsernameAndPassword(String username, String password) {
+        return this.userDao.getUserByUsernameAndPassword(username, password) != null;
     }
 
     @Override

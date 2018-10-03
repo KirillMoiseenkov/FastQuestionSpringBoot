@@ -1,66 +1,6 @@
 var placeForRegisterForm = $("#place_for_registration_form");
 var singUpBtn = $("#sing_up_btn");
-var singInBtn = $("#sing_in_btn");
-var authErrorMessageSpan = $("#auth_error_message_span");
 var slidingDelay = 350;
-
-function start()
-{
-}
-
-function authValidation(username, password)
-{
-    var userAuthData = {
-
-        username : username,
-        password : password
-
-    };
-
-    return "success" == $.ajax({
-
-                url : '/validateAuthForm',
-                type : 'POST',
-                async : false,
-                data : JSON.stringify(userAuthData)
-
-            });
-}
-
-function sendAuthData()
-{
-
-    var username = $("#username_auth_text").val();
-    var password = $("#password_auth_text").val();
-
-    var authData = {
-
-        username : username,
-        password : password
-
-    };
-
-    if(true)//authValidation(username, password) == true)
-    {
-        var messages = $.ajax({
-
-                    url : '/getMyMessages',
-                    type : 'POST',
-                    async : false,
-                    contentType : 'application/json; charset=utf-8',
-                    dataType : 'json',
-                    data : JSON.stringify(authData)
-
-                });
-
-        console.log(messages);
-    }
-    else
-    {
-        authErrorMessageSpan.append("<font style='color:red'>Wrong username or password!</font>");
-    }
-
-}
 
 function sendRegisterData()
 {
@@ -76,7 +16,6 @@ function sendRegisterData()
         (password.length > 8 && password.length < 32)
     )
     {
-        console.log("Data!!!");
 
         var registrationData = {
 
@@ -95,12 +34,6 @@ function sendRegisterData()
             data : JSON.stringify(registrationData),
 
         });
-        if(postResult)
-        {
-
-            console.log(postResult);
-
-        }
 
         hideRegisterForm();
     }
@@ -129,32 +62,12 @@ function hideRegisterForm()
 
 }
 
-function hideAuthForm()
-{
-    placeForRegisterForm.slideUp(slidingDelay,function(){placeForRegisterForm.empty()});
-    singInBtn.prop("disabled", false);
-
-}
-
 function getRegisterForm()
 {
 
     placeForRegisterForm.load("getRegisterForm #register_form", function (){
 
         singUpBtn.prop("disabled", true);
-        placeForRegisterForm.hide();
-        placeForRegisterForm.slideDown(slidingDelay);
-
-    });
-
-}
-
-function getAuthForm()
-{
-
-    placeForRegisterForm.load("getAuthForm #auth_form", function (){
-
-        singInBtn.prop("disabled", true);
         placeForRegisterForm.hide();
         placeForRegisterForm.slideDown(slidingDelay);
 

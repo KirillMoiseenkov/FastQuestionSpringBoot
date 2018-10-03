@@ -24,14 +24,9 @@ public class UserController
 
     @RequestMapping(value = "validateAuthForm", method = RequestMethod.POST)
     @ResponseBody
-    public String validateAuthForm(@RequestBody User user)
+    public Boolean validateAuthForm(@RequestBody User user)
     {
-        if(this.userService.validateUsernameAndPassword(user.getUsername(), user.getPassword()))
-        {
-            return "success";
-        }
-
-        return "fail";
+        return this.userService.validateUsernameAndPassword(user.getUsername(), user.getPassword());
     }
 
 
@@ -39,7 +34,7 @@ public class UserController
     @ResponseBody
     public List<Message> getMyMessages(@RequestBody User user, SessionStatus sessionStatus)
     {
-        System.out.println(this.messageService.getMessagesByUser(user));
+        //System.out.println(this.messageService.getMessagesByUser(user));
         return this.messageService.getMessagesByUser(user);
     }
 
