@@ -2,6 +2,7 @@ package CreationShip.demo.service;
 
 import CreationShip.demo.dao.MessageDaoImpl;
 import CreationShip.demo.models.Message;
+import CreationShip.demo.models.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,9 @@ public class MessageService implements ISerivce<Message>{
 
     @Autowired
     MessageDaoImpl messageDao;
+
+    @Autowired
+    UserService userService;
 
 
 
@@ -32,8 +36,8 @@ public class MessageService implements ISerivce<Message>{
 
     @Override
     @Transactional
-    public Message saveOrUpdate(Message message) {
-       return messageDao.saveOrUpdate(message);
+    public Message save(Message message) {
+       return messageDao.save(message);
     }
 
     @Override
@@ -45,6 +49,14 @@ public class MessageService implements ISerivce<Message>{
     @Transactional(readOnly = true)
     public List<Message> getByQuestion(Long id){
         return messageDao.getByQuestion(id);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Message> getMessagesByUser(User user){
+
+        user.setId(userService.getIdByUsername(user.getUsername()));
+
+        return messageDao.getMessagesByUserId(user.getId());
     }
 
     @Transactional(readOnly = true)

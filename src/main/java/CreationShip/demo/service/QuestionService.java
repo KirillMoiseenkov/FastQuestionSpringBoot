@@ -1,7 +1,6 @@
 package CreationShip.demo.service;
 
 import CreationShip.demo.dao.QuestionDaoImpl;
-import CreationShip.demo.models.Language;
 import CreationShip.demo.models.Question;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,8 +32,8 @@ public class QuestionService implements ISerivce<Question> {
 
     @Override
     @Transactional
-    public Question saveOrUpdate(Question question) {
-        return questionDao.saveOrUpdate(question);
+    public Question save(Question question) {
+        return questionDao.save(question);
     }
 
     @Override

@@ -1,5 +1,7 @@
 package CreationShip.demo.models;
 
+import CreationShip.demo.models.user.User;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +19,10 @@ public class Message {
 
     @Column(name = "message", nullable = false)
     private String message;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user_id;
 
     public Message(){};
 

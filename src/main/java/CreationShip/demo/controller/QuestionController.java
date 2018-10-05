@@ -1,16 +1,11 @@
 package CreationShip.demo.controller;
 
-import CreationShip.demo.dao.MessageDaoImpl;
-import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -53,6 +48,6 @@ public class QuestionController {
 
     @RequestMapping(value = "addQuestion")
     public void addNewQuestion(@RequestBody List<Question> questions){
-        questionService.saveOrUpdate(questions.get(0));
+        questionService.save(questions.get(0));
     }
 }
