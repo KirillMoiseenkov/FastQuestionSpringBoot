@@ -1,3 +1,4 @@
+var answersCount = 0;
 var selectLanguage = $("#language_select");
 var questionText = $("#question_text");
 var answersList = $("#my_messages_place");
@@ -17,8 +18,24 @@ function onBtnAnswerSubmit()
 
     answerOnQuestion(question, answerText.val());
 
-    var answersCount = 0;
+    updateAnswersCount();
 
+    console.log(answersCount);
+    $("#answers_count").html("Your answers count = "+answersCount+".");
+
+    if(answersCount == 3)
+    {
+        showSendMyQuestionForm();
+    }
+    else
+    {
+        generateQuestion();
+    }
+
+}
+
+function updateAnswersCount()
+{
     var getAnswer = $.ajax({
 
             url : '/getQuestionStatus',
@@ -31,29 +48,21 @@ function onBtnAnswerSubmit()
             }
 
     });
-    console.log(answersCount);
-    $("#answers_count").html("Your answers count = "+answersCount+".");
-
-    if(answersCount >= 3)
-    {
-        showSendMyQuestionForm();
-    }
-    else
-    {
-        generateQuestion();
-    }
-
 }
 
 function showSendMyQuestionForm()
 {
-        placeForAnswerAndQuestion.empty();
-        placeForAnswerAndQuestion.load("getQuestionForm #my_question_form", function (){
 
-                placeForAnswerAndQuestion.hide();
-                placeForAnswerAndQuestion.slideDown(slidingDelay);
+    updateAnswersCount();
 
-            });
+    placeForAnswerAndQuestion.empty();
+    placeForAnswerAndQuestion.load("getQuestionForm #my_question_form", function (){
+
+        placeForAnswerAndQuestion.hide();
+        placeForAnswerAndQuestion.slideDown(slidingDelay);
+
+    });
+
 }
 
 function sendMyQuestion()

@@ -67,6 +67,7 @@ public class QuestionController {
         if(counter != null
                 && counter >= 3)
         {
+            session.setAttribute("Counter", 0);
             questionService.save(question);
             System.out.println("!!!");
             return true;
