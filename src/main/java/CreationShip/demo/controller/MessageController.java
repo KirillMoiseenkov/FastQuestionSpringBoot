@@ -10,6 +10,7 @@ import CreationShip.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -33,20 +34,36 @@ public class MessageController {
         return messageService.getAll().get(0);
     }
 
-/*    @RequestMapping(value = "getMessageByQuestion")
-    @ResponseBody
-    public List<Message> getMessageByQuestion(@RequestBody LongJSON id){
-
-        System.out.println(id.toString());
-
-        return null;
-    }*/
+    @RequestMapping(value = "getQuestionStatus")
+    public Integer getQuestionStatus(HttpSession session)
+    {
+        return (Integer) session.getAttribute("Counter");
+    }
 
     @RequestMapping(value = "addMessage")
-    public void addMessage(@RequestBody Message message){
+    public Boolean addMessage(@RequestBody Message message, HttpSession session)
+    {
 
-        messageService.save(message);
+        Integer counter = (Integer) session.getAttribute("Counter");
 
+        if(!message.getMessage().isEmpty())
+        {
+            if(counter == null)
+            {
+                session.setAttribute("Counter", 1);
+            }
+            else
+            {
+                if(counter >= 3)
+                    session.setAttribute("Counter", 1);
+                else
+                    session.setAttribute("Counter", ++ counter);
+            }
+
+            this.messageService.save(message);
+            return true;
+        }
+        return false;
     }
 
 

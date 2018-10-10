@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
 @RestController
@@ -27,9 +28,9 @@ public class QuestionController {
         return questionService.getAll();
     }
 
-    @RequestMapping(value = "getRandomQustion")
+    @RequestMapping(value = "getRandomQuestion")
     @ResponseBody
-    public Question getRandomQustion(){
+    public Question getRandomQuestion(){
         return questionService.getRandomQuestion(1).get(0);
     }
 
@@ -47,15 +48,30 @@ public class QuestionController {
         return new ModelAndView("user_answer_on_question_form.html");
     }
 
-    @RequestMapping(value = "getSessionQuestion")
+    @RequestMapping(value = "getQuestionForm")
     @ResponseBody
-    public String getSessionQuestion(@ModelAttribute("question") Question question){
-        System.out.println("pon");
-        return question.toString();
+    public ModelAndView getQuestionForm()
+    {
+        return new ModelAndView("send_my_question_form.html");
     }
 
-    @RequestMapping(value = "addQuestion")
-    public void addNewQuestion(@RequestBody Question question){
-        questionService.save(question);
+    @RequestMapping(value = "addNewQuestion")
+    public Boolean addNewQuestion(@RequestBody Question question, HttpSession session)
+    {
+
+        Integer counter = (Integer) session.getAttribute("Counter");
+        System.out.println(counter);
+
+        System.out.println(question);
+
+        if(counter != null
+                && counter >= 3)
+        {
+            questionService.save(question);
+            System.out.println("!!!");
+            return true;
+        }
+
+        return false;
     }
 }
