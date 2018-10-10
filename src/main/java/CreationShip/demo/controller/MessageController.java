@@ -6,6 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 @RestController
 public class MessageController {
@@ -23,6 +27,14 @@ public class MessageController {
     public Integer getQuestionStatus(HttpSession session)
     {
         return (Integer) session.getAttribute("Counter");
+    }
+
+    @RequestMapping(value = "getMyMessages")
+    public List<Message> getMyMessages(HttpSession session)
+    {
+        Set<Long> ids = (TreeSet<Long>) session.getAttribute("myQuestionsIdsSet");
+
+        return this.messageService.getMessagesByMyQuestionIds(ids);
     }
 
     @RequestMapping(value = "addMessage")

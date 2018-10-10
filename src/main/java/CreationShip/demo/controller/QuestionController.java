@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @SessionAttributes("question")
@@ -60,16 +60,24 @@ public class QuestionController {
     {
 
         Integer counter = (Integer) session.getAttribute("Counter");
-        System.out.println(counter);
-
-        System.out.println(question);
 
         if(counter != null
-                && counter >= 3)
+                && counter >= 3
+                    && !question.getQuestion().isEmpty())
         {
             session.setAttribute("Counter", 0);
-            questionService.save(question);
-            System.out.println("!!!");
+            Long id = questionService.save(question).getId();
+
+            Set<Long> ids = (TreeSet<Long>) session.getAttribute("myQuestionsIdsSet");
+
+            if(ids == null)
+            {
+                ids = new TreeSet<Long>();
+            }
+
+            ids.add(id);
+            session.setAttribute("myQuestionsIdsSet", ids);
+
             return true;
         }
 

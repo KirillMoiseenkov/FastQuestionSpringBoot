@@ -20,7 +20,6 @@ function onBtnAnswerSubmit()
 
     updateAnswersCount();
 
-    console.log(answersCount);
     $("#answers_count").html("Your answers count = "+answersCount+".");
 
     if(answersCount == 3)
@@ -110,6 +109,60 @@ function sendMyQuestion()
         });
 
         getAnswerForm();
+
+        //тут должен добавиться вопрос в "мои вопросы"
+        setMessages();
+}
+
+function setMessages()
+{
+    var m = getMyMessages();
+    updateMyMessages(m);
+}
+
+function updateMyMessages(messages)
+{
+
+    var currentQuestionId = -1;
+    var messagesHtmlString = "";
+
+    for(var i = 0;i < messages.length;i ++)
+    {
+        var qt = messages[i].question_id.question;
+        var mt = messages[i].message;
+
+        messagesHtmlString = messagesHtmlString.concat("<details><summary>"+qt+"</summary><p>"+mt+"<br /></p></details><br />");
+    }
+
+    answersList.html(messagesHtmlString);
+
+}
+
+function getMyMessages()
+{
+    var messages = [];
+
+    var postAnswer = $.ajax({
+
+            url : '/getMyMessages',
+            type : 'GET',
+            contentType : 'application/json; charset=utf-8',
+            dataType : 'json',
+            async : false,
+            success : function (data)
+            {
+                messages = data;
+            },
+            error : function (error)
+            {
+                console.log(error);
+            }
+
+        });
+
+        console.log(messages);
+
+    return messages;
 }
 
 function answerOnQuestion(question, messageText)
@@ -120,8 +173,6 @@ function answerOnQuestion(question, messageText)
         message : messageText
 
     };
-
-    //console.log(myMessage);
 
     var postAnswer = $.ajax({
 
@@ -170,7 +221,7 @@ function createQuestionHtml()
     var questionId = qData.id;
     var questionText = qData.question;
 
-    var htmlString = questionId + "<br/>" + questionText + "<br/>";
+    var htmlString = "Question ID:<br/>" + questionId + "<br />Question:<br/>" + questionText + "<br/>";
 
     return htmlString;
 

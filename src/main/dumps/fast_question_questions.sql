@@ -29,7 +29,7 @@ CREATE TABLE `questions` (
   PRIMARY KEY (`id`),
   KEY `language_id` (`language_id`) /*!80000 INVISIBLE */,
   CONSTRAINT `languages_id_fk` FOREIGN KEY (`language_id`) REFERENCES `languages` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=291 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=364 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -38,7 +38,7 @@ CREATE TABLE `questions` (
 
 LOCK TABLES `questions` WRITE;
 /*!40000 ALTER TABLE `questions` DISABLE KEYS */;
-INSERT INTO `questions` VALUES (287,'Hello!',5),(288,'Привет!',4),(289,'Как ты?',4),(290,'How are you?',5);
+INSERT INTO `questions` VALUES (345,'Привет!',4),(346,'Как дела?',4),(347,'Как убрать окно?',4),(348,'Выключили свет(',4),(349,'Где купить струны для гитары?',4),(350,'как выучить матан?',4),(351,'как выучить матан?',4),(352,'как посадить дерево?',4),(353,'ку',4),(354,'где купить компудахтер?',4),(355,'как не убить кота если он орёт???',4),(356,'Кто такой Пушкин? ',4),(357,'есть что по мелочи? ',4),(358,'Как сделать так, чтобы эта хрень заработала? ',4),(359,'Как заставить работать этот бред?',4),(360,'Дошик вреден? ',4),(361,'Где найти удачу? ',4),(362,'Работает ли моё приложение правильно?)',4),(363,'поможет ли порешать демидовича? для понимания матана',4);
 /*!40000 ALTER TABLE `questions` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -51,4 +51,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-10-03 16:55:17
+-- Dump completed on 2018-10-10 13:00:53
