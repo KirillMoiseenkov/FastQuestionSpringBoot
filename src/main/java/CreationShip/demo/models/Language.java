@@ -10,7 +10,7 @@ public class Language
     @Id
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int language_id;
+    private int id;
 
     @Column(name = "language_name",unique = true, nullable = false)
     private String language_name;
@@ -25,12 +25,12 @@ public class Language
         return language_name;
     }
 
-    public int getLanguage_id() {
-        return language_id;
+    public int getId() {
+        return id;
     }
 
-    public void setLanguage_id(int language_id) {
-        this.language_id = language_id;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setLanguage_name(String language_name) {

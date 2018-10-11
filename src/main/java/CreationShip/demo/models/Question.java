@@ -25,7 +25,6 @@ public class Question {
     public Question(){}
 
 
-
     public Question(String question, Language language_id){
         this.language_id = language_id;
         this.question = question;

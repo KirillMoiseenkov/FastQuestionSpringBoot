@@ -1,6 +1,7 @@
 package CreationShip.demo.models;
 
 import CreationShip.demo.models.user.User;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -24,11 +25,19 @@ public class Message {
     @JoinColumn(name = "user_id", nullable = false)
     private User user_id;
 
-    public Message(){};
+    public Message(){}
 
     public Message(Question question_id, String message) {
         this.question_id = question_id;
         this.message = message;
+    }
+
+    public User getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(User user_id) {
+        this.user_id = user_id;
     }
 
     public long getId() {

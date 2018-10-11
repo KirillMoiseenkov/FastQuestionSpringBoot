@@ -1,0 +1,20 @@
+<form id="user_answer_on_question_form">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <span id="answer_form_error_message_span"></span><br />
+                <label id="answers_count">Your answers count = 0.</label><br />
+                <div class="container" id="place_for_question">
+                </div><br />
+                <label for="answer_text">Your answer:</label><br />
+                <input type="text" name="answer_text" id="answer_text" class="form-control"/><br /><br />
+                <input type="button" name="submit_answer_btn" id="submit_answer_btn"
+                       class="btn btn-primary" value="Answer!" onclick="onBtnAnswerSubmit()"/><br /><br />
+                <input type="button" name="skip_answer_btn" id="skip_answer_btn"
+                       class="btn btn-primary" value="Skip..." onclick="onBtnSkipQuestion()"/><br />
+            </div>
+        </div>
+    </div>
+
+</form>

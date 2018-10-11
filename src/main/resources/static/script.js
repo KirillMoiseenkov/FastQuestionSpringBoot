@@ -1,3 +1,4 @@
+/*
 $(".new" ).text("questions");
 $("ul" ).hide();
 
@@ -151,3 +152,9 @@ function getMessage(){
 	
 	$( "<li class=\"list-group-item autocomplete\">" + a + "</li>" ).appendTo( ".answers" ).hide().show('slow');
 }
+*/
+///Oleg code
+var slidingDelay = 350;
+
+var placeForAnswerAndQuestion = $("#place_for_answer_and_question");
+

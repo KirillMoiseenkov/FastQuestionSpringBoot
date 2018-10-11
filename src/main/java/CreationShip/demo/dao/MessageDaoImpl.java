@@ -31,13 +31,12 @@ public class MessageDaoImpl implements IDAO<Message> {
       }
 
     public List<Message> getByQuestion(Question question) {
-        return  (List<Message>) entityManager.createQuery("SELECT p FROM Message p WHERE p.question_id = :id")
-                    .setParameter("id", question)
+        return entityManager.createQuery("SELECT m FROM Message m WHERE m.question_id = :q")
+                    .setParameter("q", question)
                     .getResultList();
       }
 
     public List<Message> getByQuestion(Long question_id) {
-
 
         Question question = new Question();
         question.setId(question_id);
@@ -101,8 +100,10 @@ public class MessageDaoImpl implements IDAO<Message> {
     @Override
     public Message save(Message message) {
 
-            return entityManager.merge(message);
-     }
+        entityManager.persist(message);
+
+        return message;
+    }
 
 }
 
