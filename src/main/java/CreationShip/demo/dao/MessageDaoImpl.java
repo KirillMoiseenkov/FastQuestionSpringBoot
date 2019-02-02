@@ -35,25 +35,19 @@ public class MessageDaoImpl implements IDAO<Message> {
                     .getResultList();
       }
 
-    public List<Message> getByQuestion(Long question_id) {
+    public List<Message> getByQuestion(Long question_id)
+    {
 
-
-        Question question = new Question();
-        question.setId(question_id);
-
-        return (List<Message>) entityManager.createQuery("SELECT p FROM Message p WHERE p.question_id = :question_id")
-                    .setParameter("question_id", question).getResultList();
+        return (List<Message>) entityManager.createQuery("SELECT p FROM Message p WHERE p.question_id.id = :question_id")
+                    .setParameter("question_id", question_id).getResultList();
 
     }
 
-    public List<Message> getByQuestion(Long question_id, Long lastId) {
+    public List<Message> getByQuestion(Long question_id, Long lastId)
+    {
 
-        Question question = new Question();
-        question.setId(question_id);
-
-
-        return  (List<Message>) entityManager.createQuery("SELECT p FROM Message p WHERE p.question_id = :id and p.id > :LastId")
-                    .setParameter("id", question)
+        return  (List<Message>) entityManager.createQuery("SELECT p FROM Message p WHERE p.question_id.id = :id and p.id > :LastId")
+                    .setParameter("id", question_id)
                     .setParameter("LastId", lastId)
                     .getResultList();
     }

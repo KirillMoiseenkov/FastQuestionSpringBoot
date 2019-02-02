@@ -1,21 +1,25 @@
 package CreationShip.demo.models;
 
-public class LongJSON {
+public class LongJSON
+{
 
-   private Long id;
+    private Long value;
 
-    public Long getId() {
-        return id;
+    public Long getValue() {
+        return value;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setValue(Long value) {
+        this.value = value;
     }
+
+    public LongJSON()
+    {}
 
     @Override
     public String toString() {
         return "LongJSON{" +
-                "id=" + id +
+                "id=" + value +
                 '}';
     }
 }
