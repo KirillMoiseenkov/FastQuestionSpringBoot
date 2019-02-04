@@ -1,9 +1,6 @@
 package CreationShip.demo.controller;
 
-import CreationShip.demo.models.Language;
-import CreationShip.demo.models.LongJSON;
-import CreationShip.demo.models.Message;
-import CreationShip.demo.models.Question;
+import CreationShip.demo.models.*;
 import CreationShip.demo.service.LanguageService;
 import CreationShip.demo.service.MessageService;
 import CreationShip.demo.service.QuestionService;
@@ -35,17 +32,14 @@ public class MessageController {
 
     @RequestMapping(value = "getMessageByQuestion")
     @ResponseBody
-    public List<Message> getMessageByQuestion(@RequestBody LongJSON id){
-
-        System.out.println(id.toString());
-
-        return null;
+    public List <Message> getMessageByQuestion(@RequestBody LongJSON longJSON){
+        return messageService.getByQuestion(longJSON.getValue());
     }
 
     @RequestMapping(value = "addMessage")
-    public void addMessage(@RequestBody List<Message> message){
+    public void addMessage(@RequestBody Message message){
 
-        messageService.saveOrUpdate(message.get(0));
+        messageService.saveOrUpdate(message);
 
     }
 

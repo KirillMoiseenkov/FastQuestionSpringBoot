@@ -1,6 +1,7 @@
 package CreationShip.demo.controller;
 
 import CreationShip.demo.dao.MessageDaoImpl;
+import CreationShip.demo.models.LongJSON;
 import CreationShip.demo.models.Message;
 import CreationShip.demo.models.Question;
 import CreationShip.demo.service.MessageService;
@@ -31,7 +32,7 @@ public class QuestionController {
         return questionService.getAll();
     }
 
-    @RequestMapping(value = "getRandomQustion")
+    @RequestMapping(value = "getRandomQuestion")
     @ResponseBody
     public Question getRandomQustion(){
         return questionService.getRandomQuestion(1).get(0);
@@ -47,12 +48,12 @@ public class QuestionController {
     @RequestMapping(value = "getSessionQuestion")
     @ResponseBody
     public String getSessionQuestion(@ModelAttribute("question") Question question){
-        System.out.println("pon");
         return question.toString();
     }
 
     @RequestMapping(value = "addQuestion")
-    public void addNewQuestion(@RequestBody List<Question> questions){
-        questionService.saveOrUpdate(questions.get(0));
+    public Question addNewQuestion(@RequestBody List<Question> questions)
+    {
+        return questionService.saveOrUpdate(questions.get(0));
     }
 }

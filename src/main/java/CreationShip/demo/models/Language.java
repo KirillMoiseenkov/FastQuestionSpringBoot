@@ -1,6 +1,7 @@
 package CreationShip.demo.models;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "languages")
@@ -14,6 +15,9 @@ public class Language
 
     @Column(name = "language_name",unique = true, nullable = false)
     private String language_name;
+
+    @OneToMany(mappedBy = "language_id")
+    private Set<Question>  questions;
 
     public Language(){}
 
